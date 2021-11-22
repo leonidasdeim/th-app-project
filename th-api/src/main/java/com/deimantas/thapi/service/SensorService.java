@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -21,6 +23,15 @@ public class SensorService {
 
 		log.info("Sensor registered: {}", entity);
 		return new SensorResponseDto(entity.getId(), entity.getName(), entity.getPassword());
+	}
+
+	public ArrayList<SensorResponseDto> getAllSensors() {
+		var listEntities = sensorRepository.findAll();
+		var listResponse = new ArrayList<SensorResponseDto>();
+		listEntities.forEach(entity -> listResponse.add(new SensorResponseDto(entity.getId(), entity.getName())));
+
+		log.info("Fetched sensors: {}", listEntities.size());
+		return listResponse;
 	}
 
 	public Boolean verifySensor(Long id, String key) {
