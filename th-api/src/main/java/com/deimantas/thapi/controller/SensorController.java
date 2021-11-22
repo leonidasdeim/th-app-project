@@ -1,8 +1,8 @@
 package com.deimantas.thapi.controller;
 
-import com.deimantas.thapi.domain.dto.SensorMetaRequestDto;
-import com.deimantas.thapi.domain.dto.SensorMetaResponseDto;
-import com.deimantas.thapi.service.SensorMetaService;
+import com.deimantas.thapi.domain.dto.SensorRequestDto;
+import com.deimantas.thapi.domain.dto.SensorResponseDto;
+import com.deimantas.thapi.service.SensorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequestMapping("/sensor")
 public class SensorController {
-	private final SensorMetaService sensorMetaService;
+	private final SensorService sensorService;
 
 	@PostMapping
-	public ResponseEntity<SensorMetaResponseDto> registerSensor(@RequestBody SensorMetaRequestDto data) {
-		return new ResponseEntity<>(sensorMetaService.registerSensor(data), HttpStatus.OK);
+	public ResponseEntity<SensorResponseDto> registerSensor(@RequestBody SensorRequestDto data) {
+		try {
+			return new ResponseEntity<>(sensorService.registerSensor(data), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

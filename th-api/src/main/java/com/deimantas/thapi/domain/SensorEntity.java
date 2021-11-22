@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-public class SensorMetaEntity {
+public class SensorEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -19,7 +19,7 @@ public class SensorMetaEntity {
 	@Column(nullable = false)
 	private String password;
 
-	public SensorMetaEntity(String name, String password) {
+	public SensorEntity(String name, String password) {
 		this.name = name;
 		this.password = password;
 	}

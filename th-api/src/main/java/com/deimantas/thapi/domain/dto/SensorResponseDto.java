@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SensorMetaResponseDto {
+public class SensorResponseDto {
 	private Long id;
 	private String name;
 	private String key;

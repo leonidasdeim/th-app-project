@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class SensorDataResponseDto {
+public class MeasurementsResponseDto {
 	private Long sensorId;
 	private String temperature;
 	private String humidity;

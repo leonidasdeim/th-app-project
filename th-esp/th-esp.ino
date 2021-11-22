@@ -2,14 +2,17 @@
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
 #include <WiFiClient.h>
+#include <cstring>
 
 // config
 const char* WIFI_SSID = "#Telia-2168E8";
 const char* WIFI_PW = "P92W7GYEcEmEMpGu";
 const long BAUD = 115200;
 const long SLEEP_MIN = 5;
-const char* API = "https://deimantas.tech/th-api/data";
-const long SENSOR_ID = 1;
+//const char* API = "https://deimantas.tech/th-api/data";
+const char* API = "http://192.168.1.79:8080/data";
+const long SENSOR_ID = 66;
+const char* KEY = "37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578";
 
 void connectToNet();
 void sendDataApi();
@@ -38,6 +41,7 @@ void connectToNet() {
      delay(1000);
      Serial.print(".");
   }
+  
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.println(WiFi.localIP());
@@ -45,18 +49,25 @@ void connectToNet() {
 
 void sendDataApi() {
   HTTPClient http;
-  WiFiClientSecure client;
-  StaticJsonBuffer<100> JSONbuffer;   //Declaring static JSON buffer
-  char JSONmessageBuffer[100];
+  WiFiClient client;
+  WiFiClientSecure clientSecure;
+  StaticJsonBuffer<200> JSONbuffer;   //Declaring static JSON buffer
+  char JSONmessageBuffer[200];
   JsonObject& JSONencoder = JSONbuffer.createObject();
   
   JSONencoder["sensorId"] = SENSOR_ID;
   JSONencoder["temperature"] = "21,2";
   JSONencoder["humidity"] = "45%";
+  JSONencoder["key"] = KEY;
   JSONencoder.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
 
-  client.setInsecure();
-  http.begin(client, API);  
+  if (std::strncmp(API, "https", 5) == 0) {
+    clientSecure.setInsecure();
+    http.begin(clientSecure, API); 
+  } else {
+    http.begin(client, API);
+  }
+  
   http.addHeader("Content-Type", "application/json"); 
   
   int httpCode = http.POST(JSONmessageBuffer);   //Send the request

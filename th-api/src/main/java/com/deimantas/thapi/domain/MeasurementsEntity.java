@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @NoArgsConstructor
-public class SensorDataEntity {
+public class MeasurementsEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -26,7 +26,7 @@ public class SensorDataEntity {
 	@Column(nullable = false)
 	private LocalDateTime time;
 
-	public SensorDataEntity(Long sensorId, String temperature, String humidity, LocalDateTime time) {
+	public MeasurementsEntity(Long sensorId, String temperature, String humidity, LocalDateTime time) {
 		this.sensorId = sensorId;
 		this.temperature = temperature;
 		this.humidity = humidity;
