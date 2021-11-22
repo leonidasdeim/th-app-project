@@ -9,28 +9,41 @@ const char* WIFI_SSID = "#Telia-2168E8";
 const char* WIFI_PW = "P92W7GYEcEmEMpGu";
 const long BAUD = 115200;
 const long SLEEP_MIN = 5;
-//const char* API = "https://deimantas.tech/th-api/data";
-const char* API = "http://192.168.1.79:8080/data";
-const long SENSOR_ID = 66;
+const char* API = "https://deimantas.tech/th-api/data";
+//const char* API = "http://192.168.1.79:8080/data";
+const long SENSOR_ID = 3;
 const char* KEY = "37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578";
+
+long temp = 0;
+long humid = 0;
 
 void connectToNet();
 void sendDataApi();
 void wakeUp();
 void goSleep();
+void getMeasurements();
 
 void setup(void) { 
   Serial.begin(BAUD);
+  randomSeed(analogRead(0));
   wakeUp();
 }
 
+
+
 void loop() {
   if (WiFi.status() == WL_CONNECTED) {
+    getMeasurements();
     sendDataApi();
     goSleep();
   } else {
     connectToNet();
   }
+}
+
+void getMeasurements() {
+  temp = random(17, 26);
+  humid = random(30, 50);
 }
 
 void connectToNet() {
@@ -56,8 +69,8 @@ void sendDataApi() {
   JsonObject& JSONencoder = JSONbuffer.createObject();
   
   JSONencoder["sensorId"] = SENSOR_ID;
-  JSONencoder["temperature"] = "21,2";
-  JSONencoder["humidity"] = "45%";
+  JSONencoder["temperature"] = String(temp);
+  JSONencoder["humidity"] = String(humid);
   JSONencoder["key"] = KEY;
   JSONencoder.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
 
