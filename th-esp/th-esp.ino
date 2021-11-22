@@ -8,7 +8,7 @@ const char* WIFI_SSID = "#Telia-2168E8";
 const char* WIFI_PW = "P92W7GYEcEmEMpGu";
 const long BAUD = 115200;
 const long SLEEP_MIN = 5;
-const char* API = "http://192.168.1.79:8080/data";
+const char* API = "https://deimantas.tech/th-api/data";
 const long SENSOR_ID = 1;
 
 void connectToNet();
@@ -45,7 +45,7 @@ void connectToNet() {
 
 void sendDataApi() {
   HTTPClient http;
-  WiFiClient client;
+  WiFiClientSecure client;
   StaticJsonBuffer<100> JSONbuffer;   //Declaring static JSON buffer
   char JSONmessageBuffer[100];
   JsonObject& JSONencoder = JSONbuffer.createObject();
@@ -55,6 +55,7 @@ void sendDataApi() {
   JSONencoder["humidity"] = "45%";
   JSONencoder.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
 
+  client.setInsecure();
   http.begin(client, API);  
   http.addHeader("Content-Type", "application/json"); 
   
