@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class SensorMetaService {
 	private final SensorMetaRepository sensorMetaRepository;
 
-	SensorMetaResponseDto registerSensor(SensorMetaRequestDto dataDto) {
+	public SensorMetaResponseDto registerSensor(SensorMetaRequestDto dataDto) {
 		String hashedKey = DigestUtils.sha256Hex(dataDto.getPassword());
 		var entity = sensorMetaRepository.save(new SensorMetaEntity(dataDto.getName(), hashedKey));
 

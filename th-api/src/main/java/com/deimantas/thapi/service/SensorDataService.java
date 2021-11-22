@@ -24,7 +24,7 @@ public class SensorDataService {
 
 	public void addSensorData(SensorDataRequestDto requestDto) throws ResponseStatusException {
 		var sensorData = sensorMetaRepository.findById(requestDto.getSensorId());
-		if (sensorData.isEmpty() || (sensorData.get().getPassword() != requestDto.getKey())) {
+		if (sensorData.isEmpty() || !sensorData.get().getPassword().equals(requestDto.getKey())) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to identify sensor");
 		}
 
