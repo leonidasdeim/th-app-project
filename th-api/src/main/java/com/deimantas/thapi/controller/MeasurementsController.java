@@ -31,9 +31,9 @@ public class MeasurementsController {
 	}
 
 	@GetMapping
-	public ResponseEntity<ArrayList<MeasurementsResponseDto>> getSensorData(@RequestParam Long sensorId) {
+	public ResponseEntity<ArrayList<MeasurementsResponseDto>> getSensorData(@RequestParam Long sensorId, @RequestParam Integer day) {
 		try {
-			var response = measurementsService.getSensorData(sensorId);
+			var response = measurementsService.getSensorData(sensorId, day);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

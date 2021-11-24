@@ -32,10 +32,10 @@ public class MeasurementsService {
 		log.info("New row: {}", entity);
 	}
 
-	public ArrayList<MeasurementsResponseDto> getSensorData(Long sensorId) throws NoSuchAlgorithmException {
-		var listEntities = measurementsRepository.findBySensorId(sensorId);
+	public ArrayList<MeasurementsResponseDto> getSensorData(Long sensorId, Integer day) throws NoSuchAlgorithmException {
+		var listEntities = measurementsRepository.findSensorMeasurements(sensorId, day);
 		var listResponse = new ArrayList<MeasurementsResponseDto>();
-		listEntities.forEach(entity -> listResponse.add(new MeasurementsResponseDto(entity.getSensorId(), entity.getTemperature(), entity.getHumidity(), entity.getTime())));
+		listEntities.forEach(entity -> listResponse.add(new MeasurementsResponseDto(entity.getTemperature(), entity.getHumidity(), entity.getTime().toLocalTime())));
 
 		log.info("Fetched rows: {}", listEntities.size());
 		return listResponse;
