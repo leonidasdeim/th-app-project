@@ -9,5 +9,5 @@ import java.time.LocalTime;
 public class MeasurementsResponseDto {
 	private String temperature;
 	private String humidity;
-	private LocalTime time;
+	private Long time;
 }

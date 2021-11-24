@@ -11,7 +11,7 @@ const long BAUD = 115200;
 const long SLEEP_MIN = 5;
 const char* API = "https://deimantas.tech/th-api/data";
 //const char* API = "http://192.168.1.79:8080/data";
-const long SENSOR_ID = 3;
+const long SENSOR_ID = 1;
 const char* KEY = "37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578";
 
 long temp = 0;

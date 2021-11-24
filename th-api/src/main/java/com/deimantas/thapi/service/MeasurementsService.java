@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -35,9 +36,11 @@ public class MeasurementsService {
 	public ArrayList<MeasurementsResponseDto> getSensorData(Long sensorId, Integer day) throws NoSuchAlgorithmException {
 		var listEntities = measurementsRepository.findSensorMeasurements(sensorId, day);
 		var listResponse = new ArrayList<MeasurementsResponseDto>();
-		listEntities.forEach(entity -> listResponse.add(new MeasurementsResponseDto(entity.getTemperature(), entity.getHumidity(), entity.getTime().toLocalTime())));
+		listEntities.forEach(entity -> {
+			listResponse.add(new MeasurementsResponseDto(entity.getTemperature(), entity.getHumidity(), Timestamp.valueOf(entity.getTime()).getTime()));
+		});
 
-		log.info("Fetched rows: {}", listEntities.size());
+		log.info("Fetched rows: {} {}", listEntities.size());
 		return listResponse;
 	}
 }
