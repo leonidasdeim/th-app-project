@@ -1,10 +1,33 @@
 version: '3.7'
 
 services:
-  app:
+  th-api:
     image: 'th-sensor:latest'
     build:
       context: .
     container_name: th-api
     ports:       
       - 8081:8080
+    env_file:
+      - ./.env
+    depends_on:
+      - th-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://th-db:5432/${POSTGRES_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - APP_JWT_SECRET=${JWT_SECRET}
+      - APP_JWT_EXPIRATION=86400000
+
+  th-db:
+    image: postgres:${PG_VERSION}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    env_file:
+      - ./.env
+    container_name: th-db
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

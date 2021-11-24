@@ -3,14 +3,12 @@ package com.deimantas.thapi.controller;
 import com.deimantas.thapi.domain.dto.MeasurementsRequestDto;
 import com.deimantas.thapi.domain.dto.MeasurementsResponseDto;
 import com.deimantas.thapi.service.MeasurementsService;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
 
@@ -22,7 +20,6 @@ import java.util.ArrayList;
 public class MeasurementsController {
 	private final MeasurementsService measurementsService;
 
-	@ApiIgnore
 	@PostMapping
 	public ResponseEntity<String> addSensorData(@RequestBody MeasurementsRequestDto data) {
 		try {
@@ -33,7 +30,6 @@ public class MeasurementsController {
 		return new ResponseEntity<>("OK",	HttpStatus.OK);
 	}
 
-	@Operation(summary = "Get sensor measurements by ID")
 	@GetMapping
 	public ResponseEntity<ArrayList<MeasurementsResponseDto>> getSensorData(@RequestParam Long sensorId) {
 		try {

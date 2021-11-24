@@ -23,11 +23,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'commons-codec:commons-codec:1.15'
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
+	implementation('org.postgresql:postgresql')
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation "io.springfox:springfox-boot-starter:3.0.0"
-	compileOnly "io.springfox:springfox-swagger-ui:3.0.0"
 }
 
 test {

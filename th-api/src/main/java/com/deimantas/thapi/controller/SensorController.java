@@ -3,7 +3,6 @@ package com.deimantas.thapi.controller;
 import com.deimantas.thapi.domain.dto.SensorRequestDto;
 import com.deimantas.thapi.domain.dto.SensorResponseDto;
 import com.deimantas.thapi.service.SensorService;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 public class SensorController {
 	private final SensorService sensorService;
 
-	@Operation(summary = "Register new sensor")
 	@PostMapping
 	public ResponseEntity<SensorResponseDto> registerSensor(@RequestBody SensorRequestDto data) {
 		try {
@@ -30,7 +28,6 @@ public class SensorController {
 		}
 	}
 
-	@Operation(summary = "Get all registered sensors")
 	@GetMapping("/all")
 	public ResponseEntity<ArrayList<SensorResponseDto>> getAllSensors() {
 		try {
