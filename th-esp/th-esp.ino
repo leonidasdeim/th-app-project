@@ -5,13 +5,15 @@
 #include <cstring>
 #include <DHT.h>
 
+#define DHT_DATA_PIN 14
+#define DHT_VCC_PIN 12
+
 // config
 const char* WIFI_SSID = "#Telia-2168E8";
 const char* WIFI_PW = "P92W7GYEcEmEMpGu";
 const long BAUD = 115200;
 const long SLEEP_MIN = 5;
 const char* API = "https://deimantas.tech/th-api/data";
-//const char* API = "http://192.168.1.79:8080/data";
 const long SENSOR_ID = 1;
 const char* KEY = "37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578";
 
@@ -88,6 +90,29 @@ void loop() {
   }
 }
 
+void wakeUp() {
+  Serial.begin(BAUD);
+  dht.setup(DHT_DATA_PIN);
+  pinMode(DHT_VCC_PIN, OUTPUT);
+  digitalWrite(DHT_VCC_PIN, HIGH);
+    
+  Serial.println("");
+  Serial.println("-----------------------------------------------");
+  Serial.println("Wakeup");
+  Serial.println("-----------------------------------------------");
+
+  state = CONNECT;
+}
+
+void goSleep(long sleep) {
+  digitalWrite(DHT_VCC_PIN, LOW);
+
+  Serial.println("-----------------------------------------------");
+  Serial.println("Going to sleep");
+  Serial.println("-----------------------------------------------");
+  ESP.deepSleep(sleep); 
+}
+
 bool getMeasurements() {
   humid = dht.getHumidity();
   temp = dht.getTemperature();
@@ -110,16 +135,16 @@ bool connectToNet() {
   Serial.print("Waiting  for network");
 
   while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
+    delay(500);
     Serial.print(".");
      
-    if (delay_cnt > 15) {
+    if (delay_cnt > 30) {
       Serial.println("");
       Serial.println("Connection failed");
       return false;
     }
     delay_cnt++;
-  }
+  }  
   
   Serial.println("");
   Serial.println("WiFi connected");
@@ -169,21 +194,4 @@ bool sendDataApi() {
   }
   
   return true;
-}
-
-void wakeUp() {
-  Serial.begin(BAUD);
-  dht.setup(D5);
-  state = CONNECT;
-  Serial.println("");
-  Serial.println("-----------------------------------------------");
-  Serial.println("Wakeup");
-  Serial.println("-----------------------------------------------");
-}
-
-void goSleep(long sleep) {
-  Serial.println("-----------------------------------------------");
-  Serial.println("Going to sleep");
-  Serial.println("-----------------------------------------------");
-  ESP.deepSleep(sleep); 
 }
