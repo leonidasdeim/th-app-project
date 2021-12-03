@@ -1,7 +1,6 @@
 package com.deimantas.thapi.controller;
 
-import com.deimantas.thapi.domain.dto.SensorRequestDto;
-import com.deimantas.thapi.domain.dto.SensorResponseDto;
+import com.deimantas.thapi.domain.dto.SensorDto;
 import com.deimantas.thapi.service.SensorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,7 @@ public class SensorController {
 	private final SensorService sensorService;
 
 	@PostMapping
-	public ResponseEntity<SensorResponseDto> registerSensor(@RequestBody SensorRequestDto data) {
+	public ResponseEntity<SensorDto> registerSensor(@RequestBody SensorDto data) {
 		try {
 			return new ResponseEntity<>(sensorService.registerSensor(data), HttpStatus.OK);
 		} catch (Exception e) {
@@ -29,7 +28,7 @@ public class SensorController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<ArrayList<SensorResponseDto>> getAllSensors() {
+	public ResponseEntity<ArrayList<SensorDto>> getAllSensors() {
 		try {
 			return new ResponseEntity<>(sensorService.getAllSensors(), HttpStatus.OK);
 		} catch (Exception e) {

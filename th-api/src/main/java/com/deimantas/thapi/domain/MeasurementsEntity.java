@@ -18,15 +18,15 @@ public class MeasurementsEntity {
 	private Long sensorId;
 
 	@Column
-	private String temperature;
+	private Float temperature;
 
 	@Column
-	private String humidity;
+	private Float humidity;
 
 	@Column(nullable = false)
 	private LocalDateTime time;
 
-	public MeasurementsEntity(Long sensorId, String temperature, String humidity, LocalDateTime time) {
+	public MeasurementsEntity(Long sensorId, Float temperature, Float humidity, LocalDateTime time) {
 		this.sensorId = sensorId;
 		this.temperature = temperature;
 		this.humidity = humidity;

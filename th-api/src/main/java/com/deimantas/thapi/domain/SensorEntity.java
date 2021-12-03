@@ -17,10 +17,10 @@ public class SensorEntity {
 	private String name;
 
 	@Column(nullable = false)
-	private String password;
+	private String serial;
 
-	public SensorEntity(String name, String password) {
+	public SensorEntity(String name, String serial) {
 		this.name = name;
-		this.password = password;
+		this.serial = serial;
 	}
 }

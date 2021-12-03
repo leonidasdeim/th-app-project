@@ -1,13 +1,14 @@
 package com.deimantas.thapi.service;
 
 import com.deimantas.thapi.domain.SensorEntity;
-import com.deimantas.thapi.domain.dto.SensorRequestDto;
-import com.deimantas.thapi.domain.dto.SensorResponseDto;
+import com.deimantas.thapi.domain.dto.SensorDto;
 import com.deimantas.thapi.repos.SensorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 
@@ -17,28 +18,32 @@ import java.util.ArrayList;
 public class SensorService {
 	private final SensorRepository sensorRepository;
 
-	public SensorResponseDto registerSensor(SensorRequestDto requestDto) {
-		String hashedKey = DigestUtils.sha256Hex(requestDto.getPassword());
-		var entity = sensorRepository.save(new SensorEntity(requestDto.getName(), hashedKey));
+	public SensorDto registerSensor(SensorDto requestDto) {
+		var checkSensor = verifySensor(requestDto.getSerial());
+		if (checkSensor != null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to register new sensor");
+		}
+
+		var entity = sensorRepository.save(new SensorEntity(requestDto.getName(), requestDto.getSerial()));
 
 		log.info("Sensor registered: {}", entity);
-		return new SensorResponseDto(entity.getId(), entity.getName(), entity.getPassword());
+		return new SensorDto(entity.getName(), entity.getSerial());
 	}
 
-	public ArrayList<SensorResponseDto> getAllSensors() {
+	public ArrayList<SensorDto> getAllSensors() {
 		var listEntities = sensorRepository.findAll();
-		var listResponse = new ArrayList<SensorResponseDto>();
-		listEntities.forEach(entity -> listResponse.add(new SensorResponseDto(entity.getId(), entity.getName())));
+		var listResponse = new ArrayList<SensorDto>();
+		listEntities.forEach(entity -> listResponse.add(new SensorDto(entity.getName(), entity.getSerial())));
 
 		log.info("Fetched sensors: {}", listEntities.size());
 		return listResponse;
 	}
 
-	public Boolean verifySensor(Long id, String key) {
-		var sensorData = sensorRepository.findById(id);
-		if (sensorData.isPresent() && sensorData.get().getPassword().equals(key)) {
-			return true;
+	public Long verifySensor(String serial) {
+		var sensorData = sensorRepository.findBySerial(serial);
+		if (sensorData.isPresent()) {
+			return sensorData.get().getId();
 		}
-		return false;
+		return null;
 	}
 }

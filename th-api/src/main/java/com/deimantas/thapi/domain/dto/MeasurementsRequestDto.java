@@ -4,8 +4,7 @@ import lombok.Data;
 
 @Data
 public class MeasurementsRequestDto {
-	private Long sensorId;
-	private String temperature;
-	private String humidity;
-	private String key;
+	private String serial;
+	private Float temperature;
+	private Float humidity;
 }

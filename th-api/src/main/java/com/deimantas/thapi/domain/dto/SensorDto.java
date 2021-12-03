@@ -5,8 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class MeasurementsResponseDto {
-	private Float temperature;
-	private Float humidity;
-	private Long time;
+public class SensorDto {
+	private String name;
+	private String serial;
 }
