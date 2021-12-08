@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 //import WelcomeBanner from '../partials/WelcomeBanner';
-import { SensorGraph } from '../features/sensorGraph/SensorGraph';
+import { SensorGraph, SensorGraphDouble } from '../features/sensorGraph/SensorGraph';
 
 function Dashboard() {
 
@@ -23,8 +23,10 @@ function Dashboard() {
 
                         <div className="grid grid-cols-12 gap-6">
 
-                            <SensorGraph data={"temperature"} desc={"Temperature"} unit={"°C"} color={"#82ca9d"} />
-                            <SensorGraph data={"humidity"} desc={"Humidity"} unit={"%"} color={"#8884d8"} />
+                            <SensorGraph place={"Darbo kambarys"} data={"temperature"} desc={"Temperature"} unit={"°C"} color={"#82ca9d"} />
+                            <SensorGraph place={"Darbo kambarys"} data={"humidity"} desc={"Humidity"} unit={"%"} color={"#8884d8"} />
+                            <SensorGraphDouble place={"Darbo kambarys"} data1={"temperature"} desc1={"Temperature"} unit1={"°C"} color1={"#82ca9d"}
+                                                                        data2={"humidity"} desc2={"Humidity"} unit2={"%"} color2={"#8884d8"}/>
 
                         </div>
 
