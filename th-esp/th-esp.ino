@@ -10,6 +10,7 @@
 
 #define DHT_DATA_PIN 14
 #define DHT_VCC_PIN 12
+#define USER_BUTTON 5
 
 #define MINUTE 60e6
 #define SLEEP_MIN 10
@@ -20,6 +21,7 @@ const char* API = "https://deimantas.tech/th-api/data";
 // globals
 enum APP_STATE {
   CONNECT,
+  CONNECT_WITH_RESET,
   MEASUREMENT,
   SENDING,
   SLEEP,
@@ -37,24 +39,33 @@ long sleepTime = SLEEP_MIN * MINUTE;
 bool connectToNet();
 bool sendDataApi();
 bool getMeasurements();
-void wakeUp();
+void initialize();
+bool isResetNeeded();
 void goSleep();
 
 void setup(void) { 
-  delay(1000);
-  wakeUp();
+  initialize();
 }
 
 void loop() {
-  switch (state) {
+  switch (state) {  
     case CONNECT:
       Serial.println("---CONNECT STATE");
-      if (connectToNet()) {
+      if (connectToNet(false)) {
         state = MEASUREMENT;
       } else {
         state = ERR;
       }
-      break;  
+      break;
+
+    case CONNECT_WITH_RESET:
+      Serial.println("---CONNECT_WITH_RESET STATE");
+      if (connectToNet(true)) {
+        state = MEASUREMENT;
+      } else {
+        state = ERR;
+      }
+      break;
       
     case MEASUREMENT:
       Serial.println("---MEASUREMENT STATE");
@@ -90,22 +101,29 @@ void loop() {
   }
 }
 
-void wakeUp() {
+void initialize() {
   Serial.begin(BAUD);
-  dht.setup(DHT_DATA_PIN);
+  pinMode(USER_BUTTON, INPUT_PULLUP);
   pinMode(DHT_VCC_PIN, OUTPUT);
   digitalWrite(DHT_VCC_PIN, HIGH);
+  dht.setup(DHT_DATA_PIN);  
 
-  String macString = WiFi.macAddress();
-  macString.replace(":", "");
-  macString.toCharArray(macArray, 15);
+  String tempStr = WiFi.macAddress();
+  tempStr.replace(":", "");
+  tempStr.toCharArray(macArray, 15);
+  
+  if (isResetNeeded()) {
+    state = CONNECT_WITH_RESET;
+  } else {
+    state = CONNECT;
+  }
     
   Serial.println("");
   Serial.println("-----------------------------------------------");
   Serial.println("Wakeup");
+  Serial.print("Sensor ID: ");
+  Serial.println(macArray);
   Serial.println("-----------------------------------------------");
-
-  state = CONNECT;
 }
 
 void goSleep(long sleep) {
@@ -133,9 +151,12 @@ bool getMeasurements() {
   return true;
 }
 
-bool connectToNet() {
+bool connectToNet(bool reset) {
   WiFiManager wifiManager;
-  //wifiManager.resetSettings();
+
+  if (reset) {
+    wifiManager.resetSettings();
+  }
 
   char buffer[100];
   sprintf(buffer, "<p>Serial number of the module is: %s</p>", macArray);
@@ -191,5 +212,20 @@ bool sendDataApi() {
     return false;
   }
   
+  return true;
+}
+
+bool isResetNeeded() {
+  int debounceDelay = 2000;
+  int value = 1;
+  
+   while (debounceDelay > 0) {
+    value = digitalRead(USER_BUTTON);
+    if (value == 1) return false;
+    delay(100);
+    debounceDelay -= 100;
+  }
+
+  Serial.println("Reset button activated");
   return true;
 }
