@@ -7,8 +7,8 @@ const initialState = {
 
 export const fetchMeasurementsAsync = createAsyncThunk(
     'sensor/fetchMeasurements',
-    async () => {
-        return fetchMeasurements();
+    async (sensorId) => {
+        return fetchMeasurements(sensorId);
     }
 );
 
@@ -19,11 +19,17 @@ export const sensorGraphSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchMeasurementsAsync.fulfilled, (state, action) => {
-                state.value = action.payload;
+                state.value = {
+                    ...state.value,
+                    [action.meta.arg]: action.payload
+                }
             });
     },
 });
 
-export const selectMeasurements = (state) => state.sensor.value;
+export const selectMeasurements = (state, sensorId) => {
+    console.log(state.sensor.value)
+    return state.sensor.value[sensorId]
+};
 
 export default sensorGraphSlice.reducer;

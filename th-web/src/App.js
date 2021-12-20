@@ -17,7 +17,8 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    dispatch(fetchMeasurementsAsync());
+    dispatch(fetchMeasurementsAsync("2CF4321314AC"));
+    dispatch(fetchMeasurementsAsync("18FE34A3834B"));
   });
 
   useEffect(() => {

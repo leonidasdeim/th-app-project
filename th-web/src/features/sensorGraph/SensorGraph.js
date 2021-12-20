@@ -15,9 +15,9 @@ import {
 import moment from 'moment';
 
 export function SensorGraph(props) {
-    const values = useSelector(selectMeasurements);
+    const values = useSelector(state => selectMeasurements(state, props.sensorId));
     let lastItem = "";
-    if (values.length > 0) {
+    if (values && values.length > 0) {
         lastItem = values[values.length - 1][props.data];
     }
 
@@ -61,7 +61,7 @@ export function SensorGraph(props) {
 }
 
 export function SensorGraphDouble(props) {
-    const values = useSelector(selectMeasurements);
+    const values = useSelector(state => selectMeasurements(state, props.sensorId));
 
     return (
         <div className="flex flex-col col-span-full sm:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">

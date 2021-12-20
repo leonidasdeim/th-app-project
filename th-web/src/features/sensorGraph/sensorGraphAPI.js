@@ -1,5 +1,5 @@
-const API = "https://deimantas.tech/th-api/data?serial=18FE34A3834B&day=0";
+const API = `https://deimantas.tech/th-api/`;
 
-export function fetchMeasurements() {
-    return fetch(API).then(response => response.json())
+export function fetchMeasurements(sensorId) {
+    return fetch(API + `data?serial=${sensorId}&day=0`).then(response => response.json())
 }
