@@ -27,7 +27,7 @@ public class SensorController {
 		}
 	}
 
-	@GetMapping("/all")
+	@GetMapping
 	public ResponseEntity<ArrayList<SensorDto>> getAllSensors() {
 		try {
 			return new ResponseEntity<>(sensorService.getAllSensors(), HttpStatus.OK);

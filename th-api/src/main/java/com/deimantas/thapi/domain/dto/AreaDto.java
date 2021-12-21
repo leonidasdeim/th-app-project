@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SensorDto {
-	private String serial;
-	private Long areaId;
+public class AreaDto {
+	private String name;
+	private Long id;
 }

@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-public class SensorEntity {
+public class AreaEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -17,18 +17,10 @@ public class SensorEntity {
 	private String name;
 
 	@Column(nullable = false)
-	private String serial;
-
-	@Column(nullable = false)
 	private Long userId;
 
-	@Column(nullable = false)
-	private Long areaId;
-
-	public SensorEntity(String name, String serial, Long userId, Long areaId) {
+	public AreaEntity(String name, Long userId) {
 		this.name = name;
-		this.serial = serial;
 		this.userId = userId;
-		this.areaId = areaId;
 	}
 }
