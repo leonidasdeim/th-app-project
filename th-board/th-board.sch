@@ -156,17 +156,6 @@ Connection ~ 7150 4750
 Wire Wire Line
 	7150 4750 7150 4800
 $Comp
-L Switch:SW_Push SW_Flash1
-U 1 1 61A5A31C
-P 7450 2300
-F 0 "SW_Flash1" V 7404 2448 50  0000 L CNN
-F 1 "SW_Push" V 7495 2448 50  0000 L CNN
-F 2 "Button_Switch_SMD:SW_SPST_FSMSM" H 7450 2500 50  0001 C CNN
-F 3 "~" H 7450 2500 50  0001 C CNN
-	1    7450 2300
-	0    1    1    0   
-$EndComp
-$Comp
 L Device:R R7
 U 1 1 61A5DE59
 P 7450 2900
@@ -192,8 +181,6 @@ Wire Wire Line
 	7200 2100 7200 2000
 Wire Wire Line
 	7200 2000 7450 2000
-Wire Wire Line
-	7450 2000 7450 2100
 Text GLabel 4700 3400 0    50   Input ~ 0
 VCC
 $Comp
@@ -331,8 +318,6 @@ Wire Wire Line
 	7450 3200 7450 3050
 Wire Wire Line
 	6950 3200 7450 3200
-Wire Wire Line
-	7450 2750 7450 2500
 Wire Wire Line
 	6300 2150 6600 2150
 Wire Wire Line
@@ -658,4 +643,19 @@ Wire Wire Line
 NoConn ~ 5700 4000
 NoConn ~ 5700 4100
 NoConn ~ 4300 750 
+$Comp
+L Connector_Generic:Conn_01x02 J3
+U 1 1 61C0EE98
+P 7650 2250
+F 0 "J3" H 7568 1925 50  0000 C CNN
+F 1 "Conn_01x02" H 7568 2016 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7650 2250 50  0001 C CNN
+F 3 "~" H 7650 2250 50  0001 C CNN
+	1    7650 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7450 2350 7450 2750
+Wire Wire Line
+	7450 2000 7450 2250
 $EndSCHEMATC
