@@ -1,51 +1,24 @@
-import React, { useEffect } from 'react';
-import { fetchMeasurementsAsync } from './features/sensorGraph/sensorGraphSlice';
-import { useDispatch } from 'react-redux';
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 
-import {
-  Switch,
-  Route,
-  useLocation
-} from 'react-router-dom';
+import Admin from "layouts/Admin.js";
+import Auth from "layouts/Auth.js";
+import Landing from "views/Landing.js";
+import Profile from "views/Profile.js";
 
-import './css/style.scss';
-import { focusHandling } from 'cruip-js-toolkit';
-import Dashboard from './pages/Dashboard';
+export default function App() {
+    // const history = useHistory()
 
-function App() {
-  const dispatch = useDispatch();
-  const location = useLocation();
+    // useEffect(() => {
+    //     history.push('/auth/login')
+    //   });
 
-  useEffect(() => {
-    dispatch(fetchMeasurementsAsync("2CF4321314AC"));
-    dispatch(fetchMeasurementsAsync("18FE34A3834B"));
-  });
-
-  useEffect(() => {
-    document.querySelector('html').style.scrollBehavior = 'auto'
-    window.scroll({ top: 0 })
-    document.querySelector('html').style.scrollBehavior = ''
-    focusHandling('outline');
-  }, [location.pathname]); // triggered on route change
-
-  return (
-    <>
-      <Switch>
-        <Route exact path="/">
-          <Dashboard />
-        </Route>
-      </Switch>
-    </>
-  );
+    return (
+        <Switch>
+            <Route path="/admin" component={Admin} />
+            <Route path="/auth" component={Auth} />
+            <Route path="/profile" exact component={Profile} />
+            <Route path="/" exact component={Landing} />
+        </Switch>
+    );
 }
-
-
-  // return (
-  //   <div className="App">
-  //     <NavBar />
-  //       <SensorGraphArea data={"temperature"} desc={"Temperature"} unit={"°C"} color={"#82ca9d"}/>
-  //       <SensorGraphArea data={"humidity"} desc={"Humidity"} unit={"%"} color={"#8884d8"}/>
-  //   </div>
-  // );
-
-export default App;
