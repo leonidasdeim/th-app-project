@@ -21,15 +21,11 @@ export default function App() {
         if (isLoggedIn) {
             history.push('/admin/dashboard')
             dispatch(fetchSensorsAsync());
-        } else {
-            history.push('/');
-        }
+        } else history.push('/');
     }, [isLoggedIn])
 
     useEffect(() => {
-        if (apiError) {
-            dispatch(logoutUser());
-        }
+        if (apiError) dispatch(logoutUser());
     }, [apiError])
 
     useEffect(() => {

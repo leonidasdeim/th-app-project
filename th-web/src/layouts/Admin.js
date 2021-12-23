@@ -1,5 +1,8 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMeasurementsAsync, selectAllMeasurements, selectSensors } from 'features/sensorData/sensorDataSlice';
 
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
@@ -10,6 +13,19 @@ import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
 
 export default function Admin() {
+    const dispatch = useDispatch();
+    const sensors = useSelector(selectSensors);
+    const measurements = useSelector(selectAllMeasurements);
+    console.log(measurements);
+
+    console.log(sensors)
+    useEffect(() => {
+        if (sensors !== null && sensors.length > 0) {
+            sensors.forEach(sensor => dispatch(fetchMeasurementsAsync(sensor.serial)));
+        }
+    }, [sensors]);
+    
+
     return (
         <>
             <Sidebar />

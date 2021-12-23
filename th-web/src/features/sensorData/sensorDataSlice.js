@@ -46,6 +46,7 @@ export const sensorGraphSlice = createSlice({
 });
 
 export const selectMeasurements = (state, sensorId) => state.sensor.data[sensorId];
+export const selectAllMeasurements = (state) => state.sensor.data;
 export const selectSensors = (state) => state.sensor.sensors;
 export const selectError = (state) => state.sensor.error;
 
