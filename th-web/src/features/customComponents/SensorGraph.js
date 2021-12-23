@@ -72,7 +72,7 @@ export function SensorGraphDouble(props) {
             <ResponsiveContainer width={"100%"} height={400}>
                 <AreaChart data={values} margin={{ top: 15, right: 30, left: 30, bottom: 15 }}>
                     <defs>
-                    <linearGradient id={props.data1} x1="0" y1="0" x2="0" y2="1">
+                        <linearGradient id={props.data1} x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor={props.color1} stopOpacity={0.8} />
                             <stop offset="95%" stopColor={props.color1} stopOpacity={0} />
                         </linearGradient>
@@ -85,7 +85,7 @@ export function SensorGraphDouble(props) {
                     <YAxis yAxisId={props.data1} hide={true} axisLine={false} tickLine={false} domain={["dataMin - 3", "dataMax + 3"]} />
                     <YAxis yAxisId={props.data2} hide={true} axisLine={false} tickLine={false} domain={["dataMin - 3", "dataMax + 3"]} />
                     <Tooltip labelFormatter={date => "Time: " + moment(date).format('HH:mm')} formatter={(okay) => [new Intl.NumberFormat('en').format(okay), undefined]} />
-                    <Legend verticalAlign="top" height={36}/>
+                    <Legend verticalAlign="top" height={36} />
                     <Area
                         type="monotone"
                         yAxisId={props.data1}

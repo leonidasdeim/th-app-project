@@ -26,15 +26,15 @@ export const sensorGraphSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-        .addCase(fetchMeasurementsAsync.fulfilled, (state, action) => {
-            state.data = {
-                ...state.data,
-                [action.meta.arg]: action.payload
-            };
-        })
-        .addCase(fetchSensorsAsync.fulfilled, (state, action) => {
-            state.sensors = action.payload;
-        });
+            .addCase(fetchMeasurementsAsync.fulfilled, (state, action) => {
+                state.data = {
+                    ...state.data,
+                    [action.meta.arg]: action.payload
+                };
+            })
+            .addCase(fetchSensorsAsync.fulfilled, (state, action) => {
+                state.sensors = action.payload;
+            });
     },
 });
 

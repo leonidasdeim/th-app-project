@@ -10,13 +10,13 @@ import "assets/styles/tailwind.css";
 import App from "App.js";
 
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter basename="/th">
-        <Switch>
-            <Route path="*" component={App} />
-            <Redirect from="*" to="/" />
-        </Switch>
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById("root")
+    <Provider store={store}>
+        <BrowserRouter basename="/th">
+            <Switch>
+                <Route path="*" component={App} />
+                <Redirect from="*" to="/" />
+            </Switch>
+        </BrowserRouter>
+    </Provider>,
+    document.getElementById("root")
 );
