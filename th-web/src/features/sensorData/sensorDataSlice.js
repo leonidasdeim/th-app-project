@@ -3,7 +3,8 @@ import { fetchMeasurements, fetchSensors } from './sensorDataAPI';
 
 const initialState = {
     sensors: [],
-    data: []
+    data: [],
+    error: false
 };
 
 export const fetchMeasurementsAsync = createAsyncThunk(
@@ -34,11 +35,18 @@ export const sensorGraphSlice = createSlice({
             })
             .addCase(fetchSensorsAsync.fulfilled, (state, action) => {
                 state.sensors = action.payload;
+            })
+            .addCase(fetchSensorsAsync.rejected, (state) => {
+                state.error = true;
+            })
+            .addCase(fetchMeasurementsAsync.rejected, (state) => {
+                state.error = true;
             });
     },
 });
 
 export const selectMeasurements = (state, sensorId) => state.sensor.data[sensorId];
 export const selectSensors = (state) => state.sensor.sensors;
+export const selectError = (state) => state.sensor.error;
 
 export default sensorGraphSlice.reducer;
