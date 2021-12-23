@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import {
     selectMeasurements
-} from './sensorGraphSlice';
+} from './sensorDataSlice';
 import {
     AreaChart,
     Area,

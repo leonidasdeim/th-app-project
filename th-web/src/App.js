@@ -1,11 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { fetchMeasurementsAsync } from 'features/sensorGraph/sensorGraphSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-    selectMeasurements
-} from 'features/sensorGraph/sensorGraphSlice';
-
-import { Route, Switch } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { selectIsLoggedIn, checkForUser } from 'features/auth/authSlice';
+import { Route, Switch, useHistory } from "react-router-dom";
 
 import Admin from "layouts/Admin.js";
 import Auth from "layouts/Auth.js";
@@ -13,20 +10,21 @@ import Landing from "views/Landing.js";
 import Profile from "views/Profile.js";
 
 export default function App() {
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+    const history = useHistory();
     const dispatch = useDispatch();
-    // const values = useSelector(state => selectMeasurements(state, "2CF4321314AC"));
-    // console.log(values)
-  
-    useEffect(() => {
-      dispatch(fetchMeasurementsAsync("2CF4321314AC"));
-      dispatch(fetchMeasurementsAsync("2CF432131350"));
-      console.log("TEST")
-    });
-    // const history = useHistory()
 
-    // useEffect(() => {
-    //     history.push('/auth/login')
-    //   });
+    useEffect(() => {
+        if (isLoggedIn) {
+            history.push('/admin/dashboard')
+        } else {
+            history.push('/');
+        }
+    }, [isLoggedIn])
+
+    useEffect(() => {
+        dispatch(checkForUser());
+    });
 
     return (
         <Switch>
