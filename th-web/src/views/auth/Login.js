@@ -9,7 +9,6 @@ export default function Login() {
     const msgRefPass = useRef(null)
 
     const handleLoginButton = (event) => {
-        console.log("login")
         event.preventDefault()
         let user = {
             username: msgRefUser.current.value,
@@ -33,11 +32,8 @@ export default function Login() {
                                         >
                                             Username
                                         </label>
-                                        <input
-                                            type="username"
-                                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                            placeholder="Username"
-                                            ref={msgRefUser}
+                                        <input className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                            type="username" placeholder="Username" ref={msgRefUser}
                                         />
                                     </div>
 
@@ -48,11 +44,8 @@ export default function Login() {
                                         >
                                             Password
                                         </label>
-                                        <input
-                                            type="password"
-                                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                            placeholder="Password"
-                                            ref={msgRefPass}
+                                        <input className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                            type="password" placeholder="Password" ref={msgRefPass}
                                         />
                                     </div>
 
