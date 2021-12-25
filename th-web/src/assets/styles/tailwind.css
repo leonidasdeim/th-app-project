@@ -1550,7 +1550,11 @@ select {
 }
 
 .h-350-px {
-  height: 350px;
+    height: 350px;
+}
+
+.h-300-px {
+    height: 300px;
 }
 
 .h-500-px {
