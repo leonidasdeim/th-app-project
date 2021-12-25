@@ -37,5 +37,6 @@ export const { resetAreasError } = areaDataSlice.actions;
 
 export const selectAreas = (state) => state.area.areas;
 export const selectAreasError = (state) => state.area.error;
+export const selectAreasIsNotEmpty = (state) => state.area.areas.length > 0;
 
 export default areaDataSlice.reducer;

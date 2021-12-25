@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import React from "react";
 import { useSelector } from 'react-redux';
-import { selectAreas } from 'features/areaData/areaDataSlice';
+import { selectAreas, selectAreasIsNotEmpty } from 'features/areaData/areaDataSlice';
 import { Link } from "react-router-dom";
 
 // import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
@@ -9,9 +9,9 @@ import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
 export default function Sidebar() {
     const [collapseShow, setCollapseShow] = React.useState("hidden");
-
     const areaItems = useSelector(selectAreas);
-    const areaObjects = areaItems ? areaItems.map((item, i) => <AreaObject key={i} item={item} />) : '';
+    const areasIsNotEmpty = useSelector(selectAreasIsNotEmpty);
+    const areaObjects = areasIsNotEmpty ? areaItems.map((item, i) => <AreaObject key={i} item={item} />) : '';
 
     return (
         <>
@@ -138,7 +138,7 @@ export default function Sidebar() {
 
                         {/* Divider */}
                         <hr className="my-4 md:min-w-full" />
-                        { areaItems.length > 0 && 
+                        { areasIsNotEmpty && 
                             <>
                                 <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
                                     Areas
@@ -173,10 +173,10 @@ function AreaObject(props) {
         >
             <i
                 className={
-                    "fas fa-cube mr-2 text-sm " +
+                    "fas mr-2 text-sm " +
                     (window.location.href.indexOf("/admin/area/" + props.item.id) !== -1
-                        ? "opacity-75"
-                        : "text-blueGray-300")
+                        ? "fa-door-open opacity-75"
+                        : "fa-door-closed text-blueGray-300")
                 }
             ></i>{" "}
             {props.item.name}
