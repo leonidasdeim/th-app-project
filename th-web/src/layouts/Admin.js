@@ -16,16 +16,13 @@ export default function Admin() {
     const dispatch = useDispatch();
     const sensors = useSelector(selectSensors);
     const measurements = useSelector(selectAllMeasurements);
-    console.log(measurements);
 
-    console.log(sensors)
     useEffect(() => {
         if (sensors !== null && sensors.length > 0) {
             sensors.forEach(sensor => dispatch(fetchMeasurementsAsync(sensor.serial)));
         }
     }, [sensors]);
     
-
     return (
         <>
             <Sidebar />
@@ -35,6 +32,7 @@ export default function Admin() {
                 <div className="px-4 md:px-10 mx-auto w-full -m-24">
                     <Switch>
                         <Route path="/admin/dashboard" exact component={Dashboard} />
+                        <Route path="/admin/area/*" exact component={Dashboard} />
                         <Route path="/admin/settings" exact component={Settings} />
                         <Route path="/admin/tables" exact component={Tables} />
                         <Redirect from="/admin" to="/admin/dashboard" />

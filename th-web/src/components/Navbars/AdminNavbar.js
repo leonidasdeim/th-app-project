@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
@@ -11,7 +12,7 @@ export default function Navbar() {
                     {/* Brand */}
                     <a
                         className="text-white text-sm uppercase hidden lg:inline-block font-semibold"
-                        href="#pablo"
+                        href="#"
                         onClick={(e) => e.preventDefault()}
                     >
                         Dashboard

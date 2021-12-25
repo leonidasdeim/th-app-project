@@ -2,8 +2,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsLoggedIn, checkForUser, logoutUser } from 'features/auth/authSlice';
-import { selectError } from 'features/sensorData/sensorDataSlice';
-import { fetchSensorsAsync } from 'features/sensorData/sensorDataSlice';
+import { selectSensorsError } from 'features/sensorData/sensorDataSlice';
+import { selectAreasError } from 'features/areaData/areaDataSlice';
+import { fetchSensorsAsync, resetSensorsError } from 'features/sensorData/sensorDataSlice';
+import { fetchAreasAsync, resetAreasError } from 'features/areaData/areaDataSlice';
 import { Route, Switch, useHistory } from "react-router-dom";
 
 import Admin from "layouts/Admin.js";
@@ -13,7 +15,8 @@ import Profile from "views/Profile.js";
 
 export default function App() {
     const isLoggedIn = useSelector(selectIsLoggedIn);
-    const apiError = useSelector(selectError);
+    const sensorsError = useSelector(selectSensorsError);
+    const areasError = useSelector(selectAreasError);
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -21,12 +24,17 @@ export default function App() {
         if (isLoggedIn) {
             history.push('/admin/dashboard')
             dispatch(fetchSensorsAsync());
+            dispatch(fetchAreasAsync());
         } else history.push('/');
     }, [isLoggedIn])
 
     useEffect(() => {
-        if (apiError) dispatch(logoutUser());
-    }, [apiError])
+        if (sensorsError || areasError) {
+            dispatch(logoutUser());
+            dispatch(resetSensorsError());
+            dispatch(resetAreasError());
+        }
+    }, [sensorsError, areasError])
 
     useEffect(() => {
         dispatch(checkForUser());
