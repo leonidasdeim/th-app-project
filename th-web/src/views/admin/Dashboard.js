@@ -1,8 +1,8 @@
 import React from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectSensors } from 'features/sensorData/sensorDataSlice';
-
+import { removeValues } from 'features/uiData/uiDataSlice';
 import { SensorGraphDouble } from "features/customComponents/SensorGraph";
 import THStatistics from "features/customComponents/THStatistics";
 
@@ -15,12 +15,18 @@ export default function Dashboard() {
     );
 }
 
-function MainPage(props) {
+function MainPage() {
+    const sensors = useSelector(selectSensors);
+    const dispatch = useDispatch();
+    dispatch(removeValues());
+
     return(
         <>
             <div className="flex flex-wrap">
                 <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-                    <THStatistics />
+                    {
+                        sensors.length > 0 && <THStatistics />
+                    }
                 </div>
             </div>
         </>
@@ -29,7 +35,9 @@ function MainPage(props) {
 
 const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1);
 
-function AreaPage(props) {
+function AreaPage() {
+    const dispatch = useDispatch();
+    dispatch(removeValues());
     const location = useLocation();
     const sensorsAll = useSelector(selectSensors);
     const sensorsArea = sensorsAll.filter(s => s.areaId === parseInt(getLastItem(location.pathname)));

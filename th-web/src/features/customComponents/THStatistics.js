@@ -63,10 +63,10 @@ function SensorObject(props) {
                 {props.area.name}
             </th>
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                {lastItem.temperature}°C
+                {lastItem.temperature ? lastItem.temperature + "°C" : "no data"}
             </td>
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                {lastItem.humidity}%
+                {lastItem.humidity ? lastItem.humidity + "%" : "no data"}
             </td>
         </tr>
     );

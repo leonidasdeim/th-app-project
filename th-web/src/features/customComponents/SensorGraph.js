@@ -1,6 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectMeasurements } from '../sensorData/sensorDataSlice';
+import { addValue } from 'features/uiData/uiDataSlice';
 import {
     AreaChart,
     Area,
@@ -13,6 +14,7 @@ import {
 import moment from 'moment';
 
 export function SensorGraphDouble(props) {
+    const dispatch = useDispatch();
     const values = useSelector(state => selectMeasurements(state, props.sensorId));
     const c = {
         data1: "temperature",
@@ -24,6 +26,23 @@ export function SensorGraphDouble(props) {
         unit2: "%",
         color2: "#8884d8"
     };
+
+    if (values && values.length > 0) {
+        dispatch(addValue({
+            name: c.desc1,
+            unit: c.unit1,
+            value: values[values.length - 1][c.data1],
+            icon: "fa-thermometer-half",
+            color: "bg-yellow-500"
+        }));
+        dispatch(addValue({
+            name: c.desc2,
+            unit: c.unit2,
+            value: values[values.length - 1][c.data2],
+            icon: "fa-tint",
+            color: "bg-lightBlue-500"
+        }));
+    }
 
     return (
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700">
