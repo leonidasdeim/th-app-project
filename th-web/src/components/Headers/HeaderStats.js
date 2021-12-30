@@ -29,7 +29,7 @@ export default function HeaderStats() {
 
 function CardObject(props) {
     return (
-        <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+        <div className="w-full lg:w-6/12 xl:w-3/12 px-4 mt-4">
             <CardStats
                 statSubtitle={props.values.name}
                 statTitle={String(props.values.value) + props.values.unit}
