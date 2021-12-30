@@ -25,10 +25,14 @@ public class SensorEntity {
 	@Column(nullable = false)
 	private Long areaId;
 
-	public SensorEntity(String name, String serial, Long userId, Long areaId) {
+	@Column(nullable = false)
+	private Long deviceId;
+
+	public SensorEntity(String name, String serial, Long userId, Long areaId, Long deviceId) {
 		this.name = name;
 		this.serial = serial;
 		this.userId = userId;
 		this.areaId = areaId;
+		this.deviceId = deviceId;
 	}
 }

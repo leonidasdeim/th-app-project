@@ -27,6 +27,15 @@ public class SensorController {
 		}
 	}
 
+	@DeleteMapping
+	public ResponseEntity<String> deregisterSensor(@RequestParam String serial) {
+		try {
+			return new ResponseEntity<>(sensorService.deregisterSensor(serial), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	@GetMapping
 	public ResponseEntity<ArrayList<SensorDto>> getAllSensors() {
 		try {

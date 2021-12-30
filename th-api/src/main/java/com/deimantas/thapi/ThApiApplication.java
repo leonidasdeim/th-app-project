@@ -24,5 +24,8 @@ public class ThApiApplication implements CommandLineRunner {
 		if (roleRepository.findByName(ERole.ROLE_USER).isEmpty()) {
 			roleRepository.save(new Role(ERole.ROLE_USER));
 		}
+		if (roleRepository.findByName(ERole.ROLE_ADMIN).isEmpty()) {
+			roleRepository.save(new Role(ERole.ROLE_ADMIN));
+		}
 	}
 }

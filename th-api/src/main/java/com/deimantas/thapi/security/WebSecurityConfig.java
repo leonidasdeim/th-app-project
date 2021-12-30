@@ -1,5 +1,6 @@
 package com.deimantas.thapi.security;
 
+import com.deimantas.thapi.domain.ERole;
 import com.deimantas.thapi.security.jwt.AuthEntryPointJwt;
 import com.deimantas.thapi.security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -74,8 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/auth/**").permitAll()
-				.antMatchers("/sensor/**").authenticated()
-				.antMatchers("/data/**").authenticated()
+				.antMatchers("/manufacture/**").hasRole("ADMIN")
 				.anyRequest().authenticated();
 
 		http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
