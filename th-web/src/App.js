@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Route, Switch, useHistory } from "react-router-dom";
+
 import { selectIsLoggedIn, checkForUser, logoutUser } from 'features/auth/authSlice';
 import { selectSensorsError } from 'features/sensorData/sensorDataSlice';
 import { selectAreasError } from 'features/areaData/areaDataSlice';
 import { fetchSensorsAsync, resetSensorsError } from 'features/sensorData/sensorDataSlice';
 import { fetchAreasAsync, resetAreasError } from 'features/areaData/areaDataSlice';
-import { Route, Switch, useHistory } from "react-router-dom";
+import { removeValues } from 'features/uiData/uiDataSlice';
 
 import Admin from "layouts/Admin.js";
 import Auth from "layouts/Auth.js";
@@ -19,6 +21,7 @@ export default function App() {
     const areasError = useSelector(selectAreasError);
     const history = useHistory();
     const dispatch = useDispatch();
+    dispatch(removeValues());
 
     useEffect(() => {
         if (isLoggedIn) {

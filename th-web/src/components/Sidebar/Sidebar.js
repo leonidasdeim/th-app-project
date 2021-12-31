@@ -11,7 +11,7 @@ export default function Sidebar() {
     const [collapseShow, setCollapseShow] = React.useState("hidden");
     const areaItems = useSelector(selectAreas);
     const areasIsNotEmpty = useSelector(selectAreasIsNotEmpty);
-    const areaObjects = areasIsNotEmpty ? areaItems.map((item, i) => <AreaObject key={i} item={item} />) : '';
+    const areaObjects = areasIsNotEmpty ? areaItems.map((item, i) => <AreaObject key={i} item={item} collapse={setCollapseShow} />) : '';
 
     return (
         <>
@@ -91,7 +91,7 @@ export default function Sidebar() {
 
                         <ul className="md:flex-col md:min-w-full flex flex-col list-none">
                             <li className="items-center">
-                                <Link
+                                <Link onClick={() => setCollapseShow("hidden")}
                                     className={
                                         "text-xs uppercase py-3 font-bold block " +
                                         (window.location.href.indexOf("/admin/dashboard") !== -1
@@ -112,8 +112,8 @@ export default function Sidebar() {
                                 </Link>
                             </li>
 
-                            {/* <li className="items-center">
-                                <Link
+                            <li className="items-center">
+                                <Link onClick={() => setCollapseShow("hidden")}
                                     className={
                                         "text-xs uppercase py-3 font-bold block " +
                                         (window.location.href.indexOf("/admin/settings") !== -1
@@ -132,7 +132,7 @@ export default function Sidebar() {
                                     ></i>{" "}
                                     Settings
                                 </Link>
-                            </li> */}
+                            </li>
 
                         </ul>
 
@@ -162,7 +162,7 @@ export default function Sidebar() {
 function AreaObject(props) {
     return (
         <li className="items-center">
-        <Link
+        <Link onClick={() => props.collapse("hidden")}
             className={
                 "text-xs uppercase py-3 font-bold block " +
                 (window.location.href.indexOf("/admin/area/" + props.item.id) !== -1
