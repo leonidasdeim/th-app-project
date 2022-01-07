@@ -1,6 +1,7 @@
 package com.deimantas.thapi.controller;
 
 import com.deimantas.thapi.domain.dto.SensorDto;
+import com.deimantas.thapi.domain.dto.SensorRegisterDto;
 import com.deimantas.thapi.service.SensorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,11 +20,21 @@ public class SensorController {
 	private final SensorService sensorService;
 
 	@PostMapping
-	public ResponseEntity<SensorDto> registerSensor(@RequestBody SensorDto data) {
+	public ResponseEntity<SensorRegisterDto> registerSensor(@RequestBody SensorRegisterDto data) {
 		try {
-			return new ResponseEntity<>(sensorService.registerSensor(data), HttpStatus.OK);
+			sensorService.registerSensor(data);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PatchMapping
+	public ResponseEntity<SensorDto> updateSensor(@RequestBody SensorDto data) {
+		try {
+			return new ResponseEntity<>(sensorService.updateSensor(data), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -32,16 +43,16 @@ public class SensorController {
 		try {
 			return new ResponseEntity<>(sensorService.deregisterSensor(serial), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@GetMapping
-	public ResponseEntity<ArrayList<SensorDto>> getAllSensors() {
+	public ResponseEntity<List<SensorDto>> getAllSensors() {
 		try {
 			return new ResponseEntity<>(sensorService.getAllSensors(), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

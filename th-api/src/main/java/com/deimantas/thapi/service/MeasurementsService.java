@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -34,17 +35,17 @@ public class MeasurementsService {
 		log.info("New row: {}", entity);
 	}
 
-	public ArrayList<MeasurementsResponseDto> getSensorData(String serial, Integer day) throws NoSuchAlgorithmException {
+	public List<MeasurementsResponseDto> getSensorData(String serial, Integer day) throws NoSuchAlgorithmException {
 		Long sensorId = sensorService.verifySensor(serial);
 		if (sensorId == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to verify sensor");
 		}
 
 		var listEntities = measurementsRepository.findSensorMeasurements(sensorId, day);
-		var listResponse = new ArrayList<MeasurementsResponseDto>();
-		listEntities.forEach(entity -> {
-			listResponse.add(new MeasurementsResponseDto(entity.getTemperature(), entity.getHumidity(), Timestamp.valueOf(entity.getTime()).getTime()));
-		});
+		List<MeasurementsResponseDto> listResponse = new ArrayList<>();
+		listEntities.forEach(entity ->
+			listResponse.add(new MeasurementsResponseDto(entity.getTemperature(), entity.getHumidity(), Timestamp.valueOf(entity.getTime()).getTime()))
+		);
 
 		log.info("Fetched rows: {} {}", listEntities.size());
 		return listResponse;

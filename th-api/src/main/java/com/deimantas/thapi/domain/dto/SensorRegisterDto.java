@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SensorDto {
+public class SensorRegisterDto {
 	private String serial;
 	private String name;
-	private Long areaId;
+	private String email;
 }

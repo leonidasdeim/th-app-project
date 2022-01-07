@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,12 +32,12 @@ public class MeasurementsController {
 	}
 
 	@GetMapping
-	public ResponseEntity<ArrayList<MeasurementsResponseDto>> getSensorData(@RequestParam String serial, @RequestParam Integer day) {
+	public ResponseEntity<List<MeasurementsResponseDto>> getSensorData(@RequestParam String serial, @RequestParam Integer day) {
 		try {
 			var response = measurementsService.getSensorData(serial, day);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

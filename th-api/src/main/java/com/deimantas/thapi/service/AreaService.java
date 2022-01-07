@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -35,7 +36,7 @@ public class AreaService {
 
 	public Boolean deleteArea(AreaDto areaDto) {
 		var entity = areaRepository.findById(areaDto.getId());
-		if (entity.isPresent() && entity.get().getUserId() == getUser().getId()) {
+		if (entity.isPresent() && entity.get().getUserId().equals(getUser().getId())) {
 			areaRepository.deleteById(entity.get().getId());
 
 			log.info("Area deleted: {}", areaDto);
@@ -44,10 +45,9 @@ public class AreaService {
 		return false;
 	}
 
-	public ArrayList<AreaDto> getAllAreas() {
-		var test = getUser();
+	public List<AreaDto> getAllAreas() {
 		var listEntities = areaRepository.findByUserId(getUser().getId());
-		var listResponse = new ArrayList<AreaDto>();
+		List<AreaDto> listResponse = new ArrayList<>();
 		listEntities.forEach(entity -> listResponse.add(new AreaDto(entity.getName(), entity.getId())));
 
 		log.info("Fetched areas: {}", listEntities.size());

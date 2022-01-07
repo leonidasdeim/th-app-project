@@ -75,6 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/auth/**").permitAll()
+				.antMatchers(HttpMethod.POST, "/sensor/**").permitAll()
 				.antMatchers("/manufacture/**").hasRole("ADMIN")
 				.anyRequest().authenticated();
 
