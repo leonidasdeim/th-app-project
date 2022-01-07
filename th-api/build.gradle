@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.deimantas'
 version = '0.0.2'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 configurations {
 	compileOnly {
