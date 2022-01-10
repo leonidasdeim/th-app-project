@@ -11,12 +11,14 @@
 #define DHT_DATA_PIN 14
 #define DHT_VCC_PIN 12
 #define USER_BUTTON 5
+//#define USER_LED 99
 
 #define MINUTE 60e6
 #define SLEEP_MIN 10
 #define BAUD 115200
 
-const char* API = "https://deimantas.tech/th-api/data";
+const char* API_DATA = "https://deimantas.tech/th-api/data";
+const char* API_REGISTER = "http://192.168.1.79:8081/sensor";
 
 // globals
 enum APP_STATE {
@@ -24,6 +26,7 @@ enum APP_STATE {
   CONNECT_WITH_RESET,
   MEASUREMENT,
   SENDING,
+  REGISTER,
   SLEEP,
   ERR,
   NONE
@@ -35,13 +38,18 @@ float temp = 0;
 float humid = 0;
 char macArray[15];
 long sleepTime = SLEEP_MIN * MINUTE;
+WiFiManagerParameter custom_email("email", "email", "", 30);
+WiFiManagerParameter custom_name("sensor name", "sensor name", "", 10);
 
-bool connectToNet();
-bool sendDataApi();
-bool getMeasurements();
+APP_STATE connectToNet();
+APP_STATE sendDataApi();
+APP_STATE sendRegisterApi();
+APP_STATE getMeasurements();
 void initialize();
 bool isResetNeeded();
 void goSleep();
+void errorBlink();
+void okBlink();
 
 void setup(void) { 
   initialize();
@@ -51,43 +59,33 @@ void loop() {
   switch (state) {  
     case CONNECT:
       Serial.println("---CONNECT STATE");
-      if (connectToNet(false)) {
-        state = MEASUREMENT;
-      } else {
-        state = ERR;
-      }
+      state = connectToNet(false);
       break;
 
     case CONNECT_WITH_RESET:
       Serial.println("---CONNECT_WITH_RESET STATE");
-      if (connectToNet(true)) {
-        state = MEASUREMENT;
-      } else {
-        state = ERR;
-      }
+      state = connectToNet(true);
       break;
       
     case MEASUREMENT:
       Serial.println("---MEASUREMENT STATE");
-      if (getMeasurements()) {
-        state = SENDING;
-      } else {
-        state = ERR;
-      }
+      state = getMeasurements();
       break;  
       
     case SENDING:
       Serial.println("---SENDING STATE");
-      if (sendDataApi()) {
-        state = SLEEP;
-      } else {
-        state = ERR;
-      }
+      state = sendDataApi();
+      break;  
+
+    case REGISTER:
+      Serial.println("---REGISTER STATE");
+      state = sendRegisterApi();
       break;  
       
     case ERR:
       Serial.println("---ERR STATE");
       Serial.println("Go to sleep for 1 min");
+      errorBlink();
       sleepTime = MINUTE;
       
     case SLEEP:
@@ -103,6 +101,7 @@ void loop() {
 
 void initialize() {
   Serial.begin(BAUD);
+  //pinMode(USER_LED, OUTPUT);
   pinMode(USER_BUTTON, INPUT_PULLUP);
   pinMode(DHT_VCC_PIN, OUTPUT);
   digitalWrite(DHT_VCC_PIN, HIGH);
@@ -135,7 +134,7 @@ void goSleep(long sleep) {
   ESP.deepSleep(sleep); 
 }
 
-bool getMeasurements() {
+APP_STATE getMeasurements() {
   humid = dht.getHumidity();
   temp = dht.getTemperature();
   
@@ -145,19 +144,22 @@ bool getMeasurements() {
   Serial.println(humid);
 
   if(isnan(temp) || isnan(humid)) {
-    return false;
+    return ERR;
   }
 
-  return true;
+  return SENDING;
 }
 
-bool connectToNet(bool reset) {
+APP_STATE connectToNet(bool reset) {
   WiFiManager wifiManager;
 
   if (reset) {
+    errorBlink();
     wifiManager.resetSettings();
   }
 
+  wifiManager.addParameter(&custom_email);
+  wifiManager.addParameter(&custom_name);
   char buffer[100];
   sprintf(buffer, "<p>Serial number of the module is: %s</p>", macArray);
   WiFiManagerParameter custom_text(buffer);
@@ -168,12 +170,17 @@ bool connectToNet(bool reset) {
   while (WiFi.status() != WL_CONNECTED) {
     Serial.println("");
     Serial.println("Connection failed");
-    return false;
+    return ERR;
   }  
-  return true;
+
+  Serial.print("Length of string ");
+  Serial.println(strlen(custom_email.getValue()));
+  
+  if (reset && (strlen(custom_email.getValue()) > 0)) return REGISTER;
+  return MEASUREMENT;
 }
 
-bool sendDataApi() {
+APP_STATE sendDataApi() {
   HTTPClient http;
   WiFiClient client;
   WiFiClientSecure clientSecure;
@@ -186,11 +193,11 @@ bool sendDataApi() {
   JSONencoder["humidity"] = humid;
   JSONencoder.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
 
-  if (std::strncmp(API, "https", 5) == 0) {
+  if (std::strncmp(API_DATA, "https", 5) == 0) {
     clientSecure.setInsecure();
-    http.begin(clientSecure, API); 
+    http.begin(clientSecure, API_DATA); 
   } else {
-    http.begin(client, API);
+    http.begin(client, API_DATA);
   }
   
   http.addHeader("Content-Type", "application/json"); 
@@ -209,10 +216,54 @@ bool sendDataApi() {
     Serial.println("Data sent successfully");
   } else {
     Serial.println("Failed to send");
-    return false;
+    return ERR;
   }
   
-  return true;
+  return SLEEP;
+}
+
+APP_STATE sendRegisterApi() {
+  HTTPClient http;
+  WiFiClient client;
+  WiFiClientSecure clientSecure;
+  StaticJsonBuffer<200> JSONbuffer;   //Declaring static JSON buffer
+  char JSONmessageBuffer[200];
+  JsonObject& JSONencoder = JSONbuffer.createObject();
+  
+  JSONencoder["serial"] = macArray;
+  JSONencoder["name"] = custom_name.getValue();
+  JSONencoder["email"] = custom_email.getValue();
+  JSONencoder.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
+
+  if (std::strncmp(API_REGISTER, "https", 5) == 0) {
+    clientSecure.setInsecure();
+    http.begin(clientSecure, API_REGISTER); 
+  } else {
+    Serial.println("TEST1");
+    Serial.println(API_REGISTER);
+    http.begin(client, API_REGISTER);
+  }
+  
+  http.addHeader("Content-Type", "application/json"); 
+  
+  int httpCode = http.POST(JSONmessageBuffer);   //Send the request
+  
+  http.end();
+
+  Serial.println("Request:");
+  Serial.println(JSONmessageBuffer);
+  Serial.print("Response: ");
+  Serial.println(httpCode);
+
+  
+  if (httpCode == 200) {
+    Serial.println("Registered successfully");
+  } else {
+    Serial.println("Failed to send");
+    return CONNECT_WITH_RESET;
+  }
+  
+  return MEASUREMENT;
 }
 
 bool isResetNeeded() {
@@ -228,4 +279,19 @@ bool isResetNeeded() {
 
   Serial.println("Reset button activated");
   return true;
+}
+
+void errorBlink() {
+//  for (int i = 0; i <= 10; i++) {
+//    digitalWrite(USER_LED, LOW);
+//    delay(500);
+//    digitalWrite(USER_LED, HIGH);
+//    delay(500);
+//  }
+}
+
+void okBlink() {
+//  digitalWrite(USER_LED, LOW);
+//  delay(5000);
+//  digitalWrite(USER_LED, HIGH);
 }
