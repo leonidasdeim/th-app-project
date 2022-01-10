@@ -1,5 +1,6 @@
 package com.deimantas.thapi.service;
 
+import com.deimantas.thapi.domain.DevicesEntity;
 import com.deimantas.thapi.domain.SensorEntity;
 import com.deimantas.thapi.domain.UserEntity;
 import com.deimantas.thapi.domain.dto.SensorDto;
@@ -32,27 +33,34 @@ public class SensorService {
 	private static final String ERROR_MSG = "Unable to verify device";
 
 	public void registerSensor(SensorRegisterDto requestDto) {
-		var sensorId = verifySensor(requestDto.getSerial());
-		var deviceId = verifyDevice(requestDto.getSerial());
-		if (sensorId != null || deviceId == null) {
+		var userId = getUserByEmail(requestDto.getEmail()).getId();
+		var sensorEntity = verifySensor(requestDto.getSerial());
+		if (sensorEntity != null) {
+			if (sensorEntity.getUserId() != userId) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, ERROR_MSG);
+			}
+			return;
+		}
+		var devicesEntity = verifyDevice(requestDto.getSerial());
+		if (devicesEntity == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, ERROR_MSG);
 		}
 		var entity = sensorRepository.save(new SensorEntity(
-				"TH sensor",
+				requestDto.getName().length() > 0 ? requestDto.getName() : "sensor",
 				requestDto.getSerial(),
-				getUserByEmail(requestDto.getEmail()).getId(),
+				userId,
 				null,
-				deviceId));
+				devicesEntity.getId()));
 
 		log.info("Sensor registered: {}", entity);
 	}
 
 	public String deregisterSensor(String serialId) {
-		var sensorId = verifySensor(serialId);
-		if (sensorId == null) {
+		var sensorEntity = verifySensor(serialId);
+		if (sensorEntity == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, ERROR_MSG);
 		}
-		sensorRepository.deleteById(sensorId);
+		sensorRepository.deleteById(sensorEntity.getId());
 
 		log.info("Sensor deregistered: {}", serialId);
 		return serialId;
@@ -83,18 +91,18 @@ public class SensorService {
 		return listResponse;
 	}
 
-	public Long verifySensor(String serial) {
+	public SensorEntity verifySensor(String serial) {
 		var sensorData = sensorRepository.findBySerial(serial);
 		if (sensorData.isPresent()) {
-			return sensorData.get().getId();
+			return sensorData.get();
 		}
 		return null;
 	}
 
-	public Long verifyDevice(String serial) {
+	public DevicesEntity verifyDevice(String serial) {
 		var deviceData = devicesRepository.findBySerial(serial);
 		if (deviceData.isPresent()) {
-			return deviceData.get().getId();
+			return deviceData.get();
 		}
 		return null;
 	}

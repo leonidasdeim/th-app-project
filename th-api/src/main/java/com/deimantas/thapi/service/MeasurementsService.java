@@ -24,24 +24,24 @@ public class MeasurementsService {
 	private final SensorService sensorService;
 
 	public void addSensorData(MeasurementsRequestDto requestDto) throws ResponseStatusException {
-		Long sensorId = sensorService.verifySensor(requestDto.getSerial());
-		if (sensorId == null) {
+		var sensorEntity = sensorService.verifySensor(requestDto.getSerial());
+		if (sensorEntity == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to verify sensor");
 		}
 
-		var entity = new MeasurementsEntity(sensorId, requestDto.getTemperature(), requestDto.getHumidity(), LocalDateTime.now());
+		var entity = new MeasurementsEntity(sensorEntity.getId(), requestDto.getTemperature(), requestDto.getHumidity(), LocalDateTime.now());
 		measurementsRepository.save(entity);
 
 		log.info("New row: {}", entity);
 	}
 
 	public List<MeasurementsResponseDto> getSensorData(String serial, Integer day) throws NoSuchAlgorithmException {
-		Long sensorId = sensorService.verifySensor(serial);
-		if (sensorId == null) {
+		var sensorEntity = sensorService.verifySensor(serial);
+		if (sensorEntity.getId() == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to verify sensor");
 		}
 
-		var listEntities = measurementsRepository.findSensorMeasurements(sensorId, day);
+		var listEntities = measurementsRepository.findSensorMeasurements(sensorEntity.getId(), day);
 		List<MeasurementsResponseDto> listResponse = new ArrayList<>();
 		listEntities.forEach(entity ->
 			listResponse.add(new MeasurementsResponseDto(entity.getTemperature(), entity.getHumidity(), Timestamp.valueOf(entity.getTime()).getTime()))
