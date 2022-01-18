@@ -60,7 +60,7 @@ function SensorObject(props) {
     return (
         <tr>
             <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                {props.area.name}
+                {props.area ? props.area.name : "not assigned"}
             </th>
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                 {lastItem.temperature ? lastItem.temperature + "°C" : "no data"}

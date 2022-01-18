@@ -2066,6 +2066,14 @@ select {
   padding-top: 0.5rem;
 }
 
+.pt-3 {
+  padding-top: 0.75rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
+}
+
 .pb-2 {
   padding-bottom: 0.5rem;
 }
@@ -2074,8 +2082,16 @@ select {
   padding-left: 0.75rem;
 }
 
+.pl-4 {
+  padding-left: 1rem;
+}
+
 .pr-4 {
   padding-right: 1rem;
+}
+
+.pr-2 {
+  padding-right: 0.5rem;
 }
 
 .pb-4 {
