@@ -107,7 +107,7 @@ export default function Sidebar() {
                                                 ? "opacity-75"
                                                 : "text-blueGray-300")
                                         }
-                                    ></i>{" "}
+                                    ></i>
                                     Dashboard
                                 </Link>
                             </li>
@@ -129,7 +129,7 @@ export default function Sidebar() {
                                                 ? "opacity-75"
                                                 : "text-blueGray-300")
                                         }
-                                    ></i>{" "}
+                                    ></i>
                                     Settings
                                 </Link>
                             </li>
@@ -178,7 +178,7 @@ function AreaObject(props) {
                         ? "fa-door-open opacity-75"
                         : "fa-door-closed text-blueGray-300")
                 }
-            ></i>{" "}
+            ></i>
             {props.item.name}
         </Link>
     </li>

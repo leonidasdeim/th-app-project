@@ -100,7 +100,7 @@ export default function CardTable({ color }) {
                                         src={require("assets/img/blank.png").default}
                                         className="h-12 w-12 bg-white rounded-full border"
                                         alt="..."
-                                    ></img>{" "}
+                                    ></img>
                                     <span
                                         className={
                                             "ml-3 font-bold " +
@@ -163,7 +163,7 @@ export default function CardTable({ color }) {
                                         src={require("assets/img/blank.png").default}
                                         className="h-12 w-12 bg-white rounded-full border"
                                         alt="..."
-                                    ></img>{" "}
+                                    ></img>
                                     <span
                                         className={
                                             "ml-3 font-bold " +
@@ -177,7 +177,7 @@ export default function CardTable({ color }) {
                                     $1,800 USD
                                 </td>
                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    <i className="fas fa-circle text-emerald-500 mr-2"></i>{" "}
+                                    <i className="fas fa-circle text-emerald-500 mr-2"></i>
                                     completed
                                 </td>
                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
@@ -227,7 +227,7 @@ export default function CardTable({ color }) {
                                         src={require("assets/img/blank.png").default}
                                         className="h-12 w-12 bg-white rounded-full border"
                                         alt="..."
-                                    ></img>{" "}
+                                    ></img>
                                     <span
                                         className={
                                             "ml-3 font-bold " +
@@ -290,7 +290,7 @@ export default function CardTable({ color }) {
                                         src={require("assets/img/blank.png").default}
                                         className="h-12 w-12 bg-white rounded-full border"
                                         alt="..."
-                                    ></img>{" "}
+                                    ></img>
                                     <span
                                         className={
                                             "ml-3 font-bold " +
@@ -354,7 +354,7 @@ export default function CardTable({ color }) {
                                         src={require("assets/img/blank.png").default}
                                         className="h-12 w-12 bg-white rounded-full border"
                                         alt="..."
-                                    ></img>{" "}
+                                    ></img>
                                     <span
                                         className={
                                             "ml-3 font-bold " +
@@ -368,7 +368,7 @@ export default function CardTable({ color }) {
                                     $2,200 USD
                                 </td>
                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    <i className="fas fa-circle text-emerald-500 mr-2"></i>{" "}
+                                    <i className="fas fa-circle text-emerald-500 mr-2"></i>
                                     completed
                                 </td>
                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
