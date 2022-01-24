@@ -18,7 +18,7 @@
 #define BAUD 115200
 
 const char* API_DATA = "https://deimantas.tech/th-api/data";
-const char* API_REGISTER = "http://192.168.1.79:8081/sensor";
+const char* API_REGISTER = "https://deimantas.tech/th-api/sensor";
 
 // globals
 enum APP_STATE {
@@ -239,8 +239,6 @@ APP_STATE sendRegisterApi() {
     clientSecure.setInsecure();
     http.begin(clientSecure, API_REGISTER); 
   } else {
-    Serial.println("TEST1");
-    Serial.println(API_REGISTER);
     http.begin(client, API_REGISTER);
   }
   

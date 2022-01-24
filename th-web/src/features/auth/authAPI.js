@@ -1,6 +1,5 @@
 import { saveUser, removeUser, getCurrentUser } from '../utils/LocalStorage'
-
-const API = `http://localhost:8081/`;
+import { getAPI } from '../api'
 
 export function login(user) {
     const requestOptions = {
@@ -9,7 +8,7 @@ export function login(user) {
         body: JSON.stringify({ username: user.username, password: user.password })
     }
 
-    return fetch(API + `auth/signin`, requestOptions)
+    return fetch(getAPI() + `auth/signin`, requestOptions)
         .then(response => response.json())
         .then(data => {
             if (data.accessToken) {
@@ -26,7 +25,7 @@ export function register(user) {
         body: JSON.stringify({ username: user.username, password: user.password, email: user.email })
     }
 
-    return fetch(API + `auth/signup`, requestOptions).then(response => response.json())
+    return fetch(getAPI() + `auth/signup`, requestOptions).then(response => response.json())
 }
 
 export function logout() {

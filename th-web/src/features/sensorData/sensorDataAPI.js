@@ -1,13 +1,12 @@
 import { getAuthToken } from '../utils/LocalStorage'
-
-const API = `http://localhost:8081/`;
+import { getAPI } from '../api'
 
 export function fetchMeasurements(sensorId) {
     const requestOptions = {
         headers: { 'Authorization': getAuthToken() }
     }
 
-    return fetch(API + `data?serial=${sensorId}&day=0`, requestOptions).then(response => response.json())
+    return fetch(getAPI() + `data?serial=${sensorId}&day=0`, requestOptions).then(response => response.json())
 }
 
 export function fetchSensors() {
@@ -15,7 +14,7 @@ export function fetchSensors() {
         headers: { 'Authorization': getAuthToken() }
     }
 
-    return fetch(API + `sensor`, requestOptions).then(response => response.json())
+    return fetch(getAPI() + `sensor`, requestOptions).then(response => response.json())
 }
 
 export function updateSensor(data) {
@@ -28,5 +27,5 @@ export function updateSensor(data) {
         body: JSON.stringify(data)
     }
 
-    return fetch(API + `sensor`, requestOptions).then(response => response.json())
+    return fetch(getAPI() + `sensor`, requestOptions).then(response => response.json())
 }
