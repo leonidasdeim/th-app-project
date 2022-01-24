@@ -38,7 +38,7 @@ export default function MainSettings() {
                         </button> */}
                     </div>
                 </div>
-                <div className="flex-auto px-0 py-0">
+                <div className="flex-auto px-0 py-0 overflow-x-auto">
                     <table className="items-center w-full bg-transparent border-collapse">
                         <thead>
                             <tr>
@@ -138,7 +138,7 @@ function DeviceObject(props) {
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                 {props.item.name ? props.item.name : "null"}
             </td>
-            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4">
+            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                 <SensorDropdown areas={props.areas} item={props.item} />
             </td>
         </tr>

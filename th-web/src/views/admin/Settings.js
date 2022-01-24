@@ -2,7 +2,7 @@ import React from "react";
 
 // components
 
-import CardSettings from "components/Cards/CardSettings";
+// import CardSettings from "components/Cards/CardSettings";
 import MainSettings from "components/Cards/MainSettings";
 
 export default function Settings() {

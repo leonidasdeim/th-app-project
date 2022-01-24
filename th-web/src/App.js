@@ -8,7 +8,6 @@ import { selectSensorsError } from 'features/sensorData/sensorDataSlice';
 import { selectAreasError } from 'features/areaData/areaDataSlice';
 import { fetchSensorsAsync, resetSensorsError } from 'features/sensorData/sensorDataSlice';
 import { fetchAreasAsync, resetAreasError } from 'features/areaData/areaDataSlice';
-import { removeValues } from 'features/uiData/uiDataSlice';
 
 import Admin from "layouts/Admin.js";
 import Auth from "layouts/Auth.js";
@@ -21,7 +20,6 @@ export default function App() {
     const areasError = useSelector(selectAreasError);
     const history = useHistory();
     const dispatch = useDispatch();
-    dispatch(removeValues());
 
     useEffect(() => {
         if (isLoggedIn) {

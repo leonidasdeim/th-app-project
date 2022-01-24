@@ -2,6 +2,7 @@
 import React from "react";
 import { useSelector } from 'react-redux';
 import { selectAreas, selectAreasIsNotEmpty } from 'features/areaData/areaDataSlice';
+import { selectHeadText } from 'features/uiData/uiDataSlice';
 import { Link } from "react-router-dom";
 
 // import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
@@ -9,6 +10,7 @@ import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
 export default function Sidebar() {
     const [collapseShow, setCollapseShow] = React.useState("hidden");
+    const headText = useSelector(selectHeadText);
     const areaItems = useSelector(selectAreas);
     const areasIsNotEmpty = useSelector(selectAreasIsNotEmpty);
     const areaObjects = areasIsNotEmpty ? areaItems.map((item, i) => <AreaObject key={i} item={item} collapse={setCollapseShow} />) : '';
@@ -30,7 +32,7 @@ export default function Sidebar() {
                         className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                         to="/"
                     >
-                        Home Sensors
+                        {headText !== "" ? headText : "Home Sensors"}
                     </div>
                     {/* User */}
                     <ul className="md:hidden items-center flex flex-wrap list-none">
@@ -71,7 +73,7 @@ export default function Sidebar() {
                             </div>
                         </div>
                         {/* Form */}
-                        <form className="mt-6 mb-4 md:hidden">
+                        {/* <form className="mt-6 mb-4 md:hidden">
                             <div className="mb-3 pt-0">
                                 <input
                                     type="text"
@@ -80,9 +82,7 @@ export default function Sidebar() {
                                 />
                             </div>
                         </form>
-
-                        {/* Divider */}
-                        <hr className="my-4 md:min-w-full" />
+                        <hr className="my-4 md:min-w-full" /> */}
                         {/* Heading */}
                         {/* <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
                             Main

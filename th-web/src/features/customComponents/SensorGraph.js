@@ -1,7 +1,8 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useLayoutEffect, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectMeasurements } from '../sensorData/sensorDataSlice';
-import { addValue } from 'features/uiData/uiDataSlice';
+import { addValue, removeValues } from 'features/uiData/uiDataSlice';
 import {
     AreaChart,
     Area,
@@ -27,22 +28,31 @@ export function SensorGraphDouble(props) {
         color2: "#8884d8"
     };
 
-    if (values && values.length > 0) {
-        dispatch(addValue({
-            name: c.desc1,
-            unit: c.unit1,
-            value: values[values.length - 1][c.data1],
-            icon: "fa-thermometer-half",
-            color: "bg-yellow-500"
-        }));
-        dispatch(addValue({
-            name: c.desc2,
-            unit: c.unit2,
-            value: values[values.length - 1][c.data2],
-            icon: "fa-tint",
-            color: "bg-lightBlue-500"
-        }));
-    }
+    useEffect(() => {
+        dispatch(removeValues());
+        if (values && values.length > 0) {
+            dispatch(addValue({
+                name: c.desc1,
+                unit: c.unit1,
+                value: values[values.length - 1][c.data1],
+                icon: "fa-thermometer-half",
+                color: "bg-yellow-500"
+            }));
+            dispatch(addValue({
+                name: c.desc2,
+                unit: c.unit2,
+                value: values[values.length - 1][c.data2],
+                icon: "fa-tint",
+                color: "bg-lightBlue-500"
+            }));
+        }
+    }, [props])
+
+    useLayoutEffect(() => {
+        return () => {
+            dispatch(removeValues());
+        }
+    }, [])
 
     return (
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700">
