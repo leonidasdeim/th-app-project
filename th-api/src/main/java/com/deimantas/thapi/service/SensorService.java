@@ -70,7 +70,7 @@ public class SensorService {
 		var sensorEntity = sensorRepository.findBySerial(requestDto.getSerial())
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ERROR_MSG));
 
-		if (getUser().getId().equals(sensorEntity.getUserId())) {
+		if (!getUser().getId().equals(sensorEntity.getUserId())) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, ERROR_MSG);
 		}
 

@@ -29,10 +29,11 @@ public class AreaController {
 	}
 
 	@DeleteMapping
-	public ResponseEntity<HttpStatus> deleteArea(@RequestBody AreaDto data) {
+	public ResponseEntity<AreaDto> deleteArea(@RequestBody AreaDto data) {
 		try {
-			if (Boolean.TRUE.equals(areaService.deleteArea(data))) {
-				return new ResponseEntity<>(HttpStatus.OK);
+			var response = areaService.deleteArea(data);
+			if (response != null) {
+				return new ResponseEntity<>(response, HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {

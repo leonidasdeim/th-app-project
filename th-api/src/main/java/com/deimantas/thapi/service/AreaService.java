@@ -34,15 +34,15 @@ public class AreaService {
 		return new AreaDto(entity.getName(), entity.getId());
 	}
 
-	public Boolean deleteArea(AreaDto areaDto) {
+	public AreaDto deleteArea(AreaDto areaDto) {
 		var entity = areaRepository.findById(areaDto.getId());
 		if (entity.isPresent() && entity.get().getUserId().equals(getUser().getId())) {
 			areaRepository.deleteById(entity.get().getId());
 
 			log.info("Area deleted: {}", areaDto);
-			return true;
+			return areaDto;
 		}
-		return false;
+		return null;
 	}
 
 	public List<AreaDto> getAllAreas() {
