@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchMeasurements, fetchSensors } from './sensorDataAPI';
+import { fetchMeasurements, fetchSensors, updateSensor } from './sensorDataAPI';
 
 const initialState = {
     sensors: [],
@@ -18,6 +18,13 @@ export const fetchSensorsAsync = createAsyncThunk(
     'sensor/fetchSensors',
     async () => {
         return fetchSensors();
+    }
+);
+
+export const updateSensorAsync = createAsyncThunk(
+    'sensor/updateSensor',
+    async (data) => {
+        return updateSensor(data);
     }
 );
 
@@ -40,11 +47,18 @@ export const sensorGraphSlice = createSlice({
             .addCase(fetchSensorsAsync.fulfilled, (state, action) => {
                 state.sensors = action.payload;
             })
+            .addCase(updateSensorAsync.fulfilled, (state, action) => {
+                state.sensors = state.sensors.map(item => item.serial !== action.payload.serial ? item : action.payload);
+            })
             .addCase(fetchSensorsAsync.rejected, (state) => {
                 state.error = true;
             })
             .addCase(fetchMeasurementsAsync.rejected, (state) => {
                 state.error = true;
+            })
+            .addCase(updateSensorAsync.rejected, (state) => {
+                console.log("fail");
+                // state.error = true;
             });
     },
 });

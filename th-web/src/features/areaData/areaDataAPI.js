@@ -33,5 +33,5 @@ export function deleteArea(id) {
         body: JSON.stringify({ id: id })
     }
 
-    return fetch(API + `area`, requestOptions).then(response => response)
+    return fetch(API + `area`, requestOptions).then(response => response.json())
 }

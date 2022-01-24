@@ -12,9 +12,9 @@ export default function Settings() {
                 <div className="w-full lg:w-8/12 px-4">
                     <MainSettings />
                 </div>
-                <div className="w-full lg:w-8/12 px-4">
+                {/* <div className="w-full lg:w-8/12 px-4">
                     <CardSettings />
-                </div>
+                </div> */}
             </div>
         </>
     );

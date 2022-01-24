@@ -44,7 +44,7 @@ export const areaDataSlice = createSlice({
                 state.error = true;
             })
             .addCase(deleteAreaAsync.fulfilled, (state, action) => {
-                state.areas = state.areas.filter(area => area.id !== action.meta.arg);
+                state.areas = state.areas.filter(area => area.id !== action.payload.id);
             })
             .addCase(deleteAreaAsync.rejected, (state) => {
                 state.error = true;

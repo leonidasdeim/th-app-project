@@ -2098,8 +2098,8 @@ select {
   padding-bottom: 1rem;
 }
 
-.pl-4 {
-  padding-left: 1rem;
+.pl-2 {
+  padding-left: 0.5rem;
 }
 
 .pt-6 {

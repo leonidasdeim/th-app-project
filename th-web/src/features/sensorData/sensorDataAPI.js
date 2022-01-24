@@ -17,3 +17,16 @@ export function fetchSensors() {
 
     return fetch(API + `sensor`, requestOptions).then(response => response.json())
 }
+
+export function updateSensor(data) {
+    const requestOptions = {
+        method: 'PATCH',
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': getAuthToken() 
+        },
+        body: JSON.stringify(data)
+    }
+
+    return fetch(API + `sensor`, requestOptions).then(response => response.json())
+}
