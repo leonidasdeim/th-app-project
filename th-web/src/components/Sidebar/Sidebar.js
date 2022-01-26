@@ -3,7 +3,8 @@ import React from "react";
 import { useSelector } from 'react-redux';
 import { selectAreas, selectAreasIsNotEmpty } from 'features/areaData/areaDataSlice';
 import { selectHeadText } from 'features/uiData/uiDataSlice';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
 
 // import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
@@ -160,12 +161,14 @@ export default function Sidebar() {
 }
 
 function AreaObject(props) {
+    const location = useLocation();
+
     return (
         <li className="items-center">
         <Link onClick={() => props.collapse("hidden")}
             className={
                 "text-xs uppercase py-3 font-bold block " +
-                (window.location.href.indexOf("/admin/area/" + props.item.id) !== -1
+                (location.pathname === ("/admin/area/" + props.item.id)
                     ? "text-lightBlue-500 hover:text-lightBlue-600"
                     : "text-blueGray-700 hover:text-blueGray-500")
             }
@@ -174,7 +177,7 @@ function AreaObject(props) {
             <i
                 className={
                     "fas mr-2 text-sm " +
-                    (window.location.href.indexOf("/admin/area/" + props.item.id) !== -1
+                    (location.pathname === ("/admin/area/" + props.item.id)
                         ? "fa-door-open opacity-75"
                         : "fa-door-closed text-blueGray-300")
                 }

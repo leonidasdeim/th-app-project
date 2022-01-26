@@ -163,6 +163,8 @@ function SensorDropdown(props) {
         <DropdownObject key={i} area={item} item={props.item} close={setDropdownPopoverShow} />
     ) : null;
 
+    const currentArea = props.areas.find(area => area.id === props.item.areaId);
+
     return (
         <>
             <a href="#blank"
@@ -172,7 +174,7 @@ function SensorDropdown(props) {
                     dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
                 }}
             >
-                {props.areas[props.item.areaId - 1] ? props.areas[props.item.areaId - 1].name : "Not assigned"}
+                {currentArea ? currentArea.name : "Not assigned"}
                 <i className="far fa-edit pl-2 text-lightBlue-600"></i>
             </a>
             <div
@@ -183,7 +185,7 @@ function SensorDropdown(props) {
                 }
             >
                 {dropdownObjects}
-                { props.areas[props.item.areaId - 1] &&
+                { currentArea &&
                     <>
                         <div className="h-0 my-2 border border-solid border-blueGray-100" />
                         <DropdownObject area={{name: "Remove", id: null}} item={props.item} close={setDropdownPopoverShow} />
