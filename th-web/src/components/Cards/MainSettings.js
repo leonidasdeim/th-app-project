@@ -132,7 +132,7 @@ function AreaObject(props) {
 function DeviceObject(props) {
     return (
         <tr className="bg-white">
-            <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+            <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs truncate max-w-100-px p-4 text-left">
                 {props.item.serial ? props.item.serial : "null"}
             </th>
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
@@ -169,13 +169,14 @@ function SensorDropdown(props) {
         <>
             <a href="#blank"
                 ref={btnDropdownRef}
+                className="text-blueGray-100 bg-lightBlue-500 rounded text-xs py-1 px-2 font-semibold shadow text-center flex justify-between max-w-180-px"
                 onClick={(e) => {
                     e.preventDefault();
                     dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
                 }}
             >
                 {currentArea ? currentArea.name : "Not assigned"}
-                <i className="far fa-edit pl-2 text-lightBlue-600"></i>
+                <i className="far fa-edit pl-2"></i>
             </a>
             <div
                 ref={popoverDropdownRef}
