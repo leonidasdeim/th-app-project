@@ -57,8 +57,7 @@ export const sensorGraphSlice = createSlice({
                 state.error = true;
             })
             .addCase(updateSensorAsync.rejected, (state) => {
-                console.log("fail");
-                // state.error = true;
+                state.error = true;
             });
     },
 });

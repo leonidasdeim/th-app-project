@@ -25,7 +25,7 @@ export function register(user) {
         body: JSON.stringify({ username: user.username, password: user.password, email: user.email })
     }
 
-    return fetch(getAPI() + `auth/signup`, requestOptions).then(response => response.json())
+    return fetch(getAPI() + `auth/signup`, requestOptions).then(response => response)
 }
 
 export function logout() {
