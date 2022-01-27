@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectSensors } from 'features/sensorData/sensorDataSlice';
 import { setHeadText } from 'features/uiData/uiDataSlice';
 import { selectAreas } from 'features/areaData/areaDataSlice';
+import { addValue, removeValues } from 'features/uiData/uiDataSlice';
 import { SensorGraphDouble } from "features/customComponents/SensorGraph";
 import THStatistics from "features/customComponents/THStatistics";
 
@@ -19,7 +20,21 @@ export default function Dashboard() {
 }
 
 function MainPage() {
+    const dispatch = useDispatch();
     const sensors = useSelector(selectSensors);
+
+    useEffect(() => {
+        dispatch(removeValues());
+        if (sensors && sensors.length === 0) {
+            dispatch(addValue({
+                name: "Alert",
+                unit: "",
+                value: "No devices found",
+                icon: "fa-flag",
+                color: "bg-yellow-500"
+            }));
+        }
+    }, [sensors])
 
     return (
         <>
@@ -72,3 +87,4 @@ function SensorGraphObject(props) {
         </div>
     );
 }
+

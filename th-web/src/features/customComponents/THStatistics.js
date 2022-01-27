@@ -1,9 +1,11 @@
 import React from "react";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchSensorsAsync } from 'features/sensorData/sensorDataSlice';
 import { selectAllMeasurements, selectSensors } from '../sensorData/sensorDataSlice';
 import { selectAreas } from 'features/areaData/areaDataSlice';
 
 export default function THStatistics() {
+    const dispatch = useDispatch();
     const values = useSelector(selectAllMeasurements);
     const sensors = useSelector(selectSensors);
     const areaItems = useSelector(selectAreas);
@@ -16,13 +18,16 @@ export default function THStatistics() {
     return (
         <>
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-                <div className="rounded-t mb-0 px-4 py-3 border-0">
-                    <div className="flex flex-wrap items-center">
-                        <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-                            <h3 className="font-semibold text-base text-blueGray-700">
-                                Sensors summary
-                            </h3>
-                        </div>
+                <div className="rounded-t bg-white mb-0 px-6 py-6">
+                    <div className="text-center flex justify-between">
+                        <h6 className="text-blueGray-700 text-xl font-bold">Summary</h6>
+                        <button
+                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => dispatch(fetchSensorsAsync())}
+                        >
+                            <i className="fas fa-sync-alt text-xs"></i>
+                        </button>
                     </div>
                 </div>
                 <div className="block w-full overflow-x-auto">
@@ -56,10 +61,13 @@ function SensorObject(props) {
     if (props.values && props.values.length > 0) {
         lastItem = props.values[props.values.length - 1];
     }
+    const status = ((lastItem.time + 900000) > new Date().getTime());
 
     return (
         <tr>
-            <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+            <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"> 
+                { !status && <i className="fas fa-dot-circle pr-2 text-red-500"></i> }
+                { status && <i className="far fa-dot-circle pr-2 text-green-500"></i> }
                 {props.area ? props.area.name : "not assigned"}
             </th>
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">

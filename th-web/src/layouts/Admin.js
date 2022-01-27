@@ -7,7 +7,7 @@ import { fetchMeasurementsAsync, selectSensors } from 'features/sensorData/senso
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import HeaderStats from "components/Headers/HeaderStats.js";
-import FooterAdmin from "components/Footers/FooterAdmin.js";
+// import FooterAdmin from "components/Footers/FooterAdmin.js";
 import Dashboard from "views/admin/Dashboard.js";
 import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
@@ -36,7 +36,7 @@ export default function Admin() {
                         <Route path="/admin/tables" exact component={Tables} />
                         <Redirect from="/admin" to="/admin/dashboard" />
                     </Switch>
-                    <FooterAdmin />
+                    {/* <FooterAdmin /> */}
                 </div>
             </div>
         </>
