@@ -118,11 +118,13 @@ function AreaObject(props) {
 
     return (
         <div className="w-full lg:w-4/12 px-2">
-            <div className="text-blueGray-100 bg-blueGray-500 rounded text-sm font-semibold shadow m-2 p-2 pl-4 text-center flex justify-between">
+            <div className="text-blueGray-600 bg-blueGray-200 rounded text-sm font-semibold shadow m-2 p-2 pl-4 text-center flex justify-between">
                 {props.item.name}
                 {
                     props.edit &&
-                    <i className="text-sm text-red-500 far fa-trash-alt pr-2" onClick={() => dispatch(deleteAreaAsync(props.item.id))}></i>
+                    <a href="#blank">
+                        <i className="text-sm text-red-500 far fa-trash-alt pr-2" onClick={() => dispatch(deleteAreaAsync(props.item.id))}></i>
+                    </a>
                 }
             </div>
         </div>
@@ -169,14 +171,14 @@ function SensorDropdown(props) {
         <>
             <a href="#blank"
                 ref={btnDropdownRef}
-                className="text-blueGray-100 bg-lightBlue-500 rounded text-xs py-1 px-2 font-semibold shadow text-center flex justify-between max-w-180-px"
+                className="text-blueGray-600 bg-blueGray-200 rounded text-xs py-1 px-2 font-semibold shadow text-center flex justify-between max-w-180-px"
                 onClick={(e) => {
                     e.preventDefault();
                     dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
                 }}
             >
                 {currentArea ? currentArea.name : "Not assigned"}
-                <i className="far fa-edit pl-2"></i>
+                <i className="far fa-edit pl-2 text-xs text-lightBlue-500"></i>
             </a>
             <div
                 ref={popoverDropdownRef}

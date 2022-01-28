@@ -66,15 +66,21 @@ function SensorObject(props) {
     return (
         <tr>
             <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"> 
-                { !status && <i className="fas fa-dot-circle pr-2 text-red-500"></i> }
-                { status && <i className="far fa-dot-circle pr-2 text-green-500"></i> }
-                {props.area ? props.area.name : "not assigned"}
+                <p className="text-blueGray-600 bg-blueGray-200 rounded text-xs py-1 px-2 font-semibold shadow max-w-200-px font-bold">
+                    { !status && <i className="fas fa-dot-circle pr-2 text-red-500"></i> }
+                    { status && <i className="far fa-dot-circle pr-2 text-green-500"></i> }
+                    {props.area ? props.area.name : "not assigned"}
+                </p>
             </th>
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                {lastItem.temperature ? lastItem.temperature + "°C" : "no data"}
+                <p className="text-blueGray-100 bg-lightBlue-500 rounded text-xs py-1 px-2 font-semibold shadow text-center max-w-60-px font-bold">
+                    {lastItem.temperature ? lastItem.temperature + "°C" : "no data"}
+                </p>
             </td>
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                {lastItem.humidity ? lastItem.humidity + "%" : "no data"}
+                <p className="text-blueGray-100 bg-lightBlue-500 rounded text-xs py-1 px-2 font-semibold shadow text-center max-w-60-px font-bold">
+                    {lastItem.humidity ? lastItem.humidity + "%" : "no data"}
+                </p>
             </td>
         </tr>
     );
