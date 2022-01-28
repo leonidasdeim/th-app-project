@@ -1,6 +1,5 @@
 package com.deimantas.thapi.security;
 
-import com.deimantas.thapi.domain.ERole;
 import com.deimantas.thapi.security.jwt.AuthEntryPointJwt;
 import com.deimantas.thapi.security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Qualifier;

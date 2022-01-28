@@ -36,7 +36,7 @@ public class SensorService {
 		var userId = getUserByEmail(requestDto.getEmail()).getId();
 		var sensorEntity = verifySensor(requestDto.getSerial());
 		if (sensorEntity != null) {
-			if (sensorEntity.getUserId() != userId) {
+			if (sensorEntity.getUserId().equals(userId)) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, ERROR_MSG);
 			}
 			return;
