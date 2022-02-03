@@ -10,8 +10,8 @@
 
 #define DHT_DATA_PIN 14
 #define DHT_VCC_PIN 12
-#define USER_BUTTON 5
-//#define USER_LED 99
+#define USER_BUTTON 4
+#define USER_LED 5
 
 #define MINUTE 60e6
 #define SLEEP_MIN 10
@@ -101,7 +101,7 @@ void loop() {
 
 void initialize() {
   Serial.begin(BAUD);
-  //pinMode(USER_LED, OUTPUT);
+  pinMode(USER_LED, OUTPUT);
   pinMode(USER_BUTTON, INPUT_PULLUP);
   pinMode(DHT_VCC_PIN, OUTPUT);
   digitalWrite(DHT_VCC_PIN, HIGH);
@@ -154,7 +154,7 @@ APP_STATE connectToNet(bool reset) {
   WiFiManager wifiManager;
 
   if (reset) {
-    errorBlink();
+    okBlink();
     wifiManager.resetSettings();
   }
 
@@ -176,7 +176,7 @@ APP_STATE connectToNet(bool reset) {
   Serial.print("Length of string ");
   Serial.println(strlen(custom_email.getValue()));
   
-  if (reset && (strlen(custom_email.getValue()) > 0)) return REGISTER;
+  if (strlen(custom_email.getValue()) > 0) return REGISTER;
   return MEASUREMENT;
 }
 
@@ -280,16 +280,16 @@ bool isResetNeeded() {
 }
 
 void errorBlink() {
-//  for (int i = 0; i <= 10; i++) {
-//    digitalWrite(USER_LED, LOW);
-//    delay(500);
-//    digitalWrite(USER_LED, HIGH);
-//    delay(500);
-//  }
+  for (int i = 0; i <= 10; i++) {
+    digitalWrite(USER_LED, HIGH);
+    delay(500);
+    digitalWrite(USER_LED, LOW);
+    delay(500);
+  }
 }
 
 void okBlink() {
-//  digitalWrite(USER_LED, LOW);
-//  delay(5000);
-//  digitalWrite(USER_LED, HIGH);
+  digitalWrite(USER_LED, HIGH);
+  delay(3000);
+  digitalWrite(USER_LED, LOW);
 }
