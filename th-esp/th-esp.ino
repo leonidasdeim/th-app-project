@@ -14,7 +14,7 @@
 #define USER_LED 5
 
 #define MINUTE 60e6
-#define SLEEP_MIN 10
+#define SLEEP_MIN 15
 #define BAUD 115200
 
 const char* API_DATA = "https://deimantas.tech/th-api/data";
