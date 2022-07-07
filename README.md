@@ -11,8 +11,8 @@ But main goal of the project is to add more and more home monitoring and automat
 
 ## Client preview
 
-Project is published, you can check it here:
-https://deimantas.tech/th/
+~~Project is published, you can check it here:
+https://deimantas.tech/th/~~
 
 Screenshot/preview of one sensor measurements:
 
